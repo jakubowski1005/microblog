@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: api-gateway
+
+server:
+  port: 8080
+
+eureka:
+  instance:
+    hostname: localhost
+    non-secure-port: 8761
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+
+zuul:
+  routes:
+    service-registry:
+      path: /eureka/**
+      url: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka/
