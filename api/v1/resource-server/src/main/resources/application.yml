@@ -1,1 +1,15 @@
+spring:
+  application:
+    name: resource-server
 
+server:
+  port: 8082
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
+  instance:
+    hostname: localhost
+    non-secure-port: 8761
+    prefer-ip-address: true

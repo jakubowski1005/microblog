@@ -1,20 +1,35 @@
 spring:
   application:
     name: api-gateway
+  security:
+    user:
+      password: 123
 
 server:
   port: 8080
 
 eureka:
-  instance:
-    hostname: localhost
-    non-secure-port: 8761
   client:
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 
 zuul:
   routes:
     service-registry:
       path: /eureka/**
-      url: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka/
+      url: http://localhost:8761/
+      #url: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka/
+      #auth server
+      #resource server
+    email-service:
+      path: /emails/**
+      url: http://localhost:8091/
+    log-service:
+      path: /logs/**
+      url: http://localhost:8092/
+    post-service:
+      path: /posts/**
+      url: http://localhost:8093/
+    user-service:
+      path: /users/**
+      url: http://localhost:8094/
