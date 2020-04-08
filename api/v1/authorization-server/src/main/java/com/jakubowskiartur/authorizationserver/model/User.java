@@ -51,6 +51,7 @@ public class User {
     List<Role> roles;
 
     public User(User user) {
+        this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
