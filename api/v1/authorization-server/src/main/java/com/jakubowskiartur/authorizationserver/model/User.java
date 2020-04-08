@@ -49,4 +49,15 @@ public class User {
             @JoinColumn(name = "role_id", referencedColumnName = "id")
     })
     List<Role> roles;
+
+    public User(User user) {
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+        this.enabled = user.isEnabled();
+        this.accountNonExpired = user.isAccountNonExpired();
+        this.credentialsNonExpired = user.isCredentialsNonExpired();
+        this.accountNonLocked = user.isAccountNonLocked();
+        this.roles = user.getRoles();
+    }
 }
