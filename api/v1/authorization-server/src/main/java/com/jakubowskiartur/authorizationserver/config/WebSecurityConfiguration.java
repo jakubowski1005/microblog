@@ -22,12 +22,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     @SneakyThrows
-    public AuthenticationManager authenticationManager() {
+    protected AuthenticationManager authenticationManager() {
         return super.authenticationManager();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
