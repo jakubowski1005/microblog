@@ -6,6 +6,23 @@ spring:
 #      name: artur
 #      password: pass123
 #      roles: ADMIN,USER
+  datasource:
+    hikari:
+      connectionTimeout: 20000
+      maximum-pool-size: 5
+    url: jdbc:postgresql://localhost:5432/oauthtest
+    username: arturjakubowski
+    password:
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 
 
 server:
@@ -30,3 +47,8 @@ eureka:
 #      scope: READ,WRITE
 #    authorization:
 #      check-token-access: permitAll
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
