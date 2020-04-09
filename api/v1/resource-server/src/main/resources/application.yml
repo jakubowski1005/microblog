@@ -1,15 +1,35 @@
 spring:
   application:
     name: resource-server
+  datasource:
+    url: jdbc:postgresql://localhost:5432/resource
+    username: arturjakubowski
+    password:
+    initialization-mode: always
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
 
 server:
   port: 8082
 
+
+
+
 eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
   instance:
     hostname: localhost
     non-secure-port: 8761
     prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
+
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:8081/oauth/check_token
+    client:
+      client-id: mobile
+      client-secret: pin
