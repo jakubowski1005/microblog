@@ -1,21 +1,20 @@
 package com.jakubowskiartur.authorizationserver.model;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "user_details")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue
@@ -33,13 +32,13 @@ public class User {
     @Column(name = "enabled")
     boolean enabled;
 
-    @Column(name = "accountNonExpired")
+    @Column(name = "account_non_expired")
     boolean accountNonExpired;
 
-    @Column(name = "credentialsNonExpired")
+    @Column(name = "credentials_non_expired")
     boolean credentialsNonExpired;
 
-    @Column(name = "accountNonLocked")
+    @Column(name = "account_non_locked")
     boolean accountNonLocked;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -51,7 +50,7 @@ public class User {
     List<Role> roles;
 
     public User(User user) {
-        this.id = user.getId();
+        //this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();

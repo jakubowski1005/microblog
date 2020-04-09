@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("userDetailsService")
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -20,8 +20,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDetailsRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User optionalUser = repository.findByUsername(username).orElseThrow(
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        User optionalUser = repository.findByUsername(name).orElseThrow(
                 () -> new UsernameNotFoundException("Credentials are not valid.")
         );
 

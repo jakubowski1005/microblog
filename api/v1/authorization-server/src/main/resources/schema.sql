@@ -1,4 +1,4 @@
-/* SET sql_mode = ''; */
+
 
 CREATE TABLE IF NOT EXISTS oauth_client_details (
   client_id VARCHAR(256) PRIMARY KEY,
@@ -27,15 +27,15 @@ CREATE TABLE IF NOT EXISTS role (
 );
 
 
-CREATE TABLE IF NOT EXISTS user_details (
+CREATE TABLE IF NOT EXISTS users (
   id SERIAL NOT NULL PRIMARY KEY,
   username VARCHAR(100) NOT NULL,
   password VARCHAR(1024) NOT NULL,
   email VARCHAR(1024) NOT NULL,
   enabled SMALLINT NOT NULL,
-  accountNonExpired SMALLINT NOT NULL,
-  credentialsNonExpired SMALLINT NOT NULL,
-  accountNonLocked SMALLINT NOT NULL,
+  account_non_expired SMALLINT NOT NULL,
+  credentials_non_expired SMALLINT NOT NULL,
+  account_non_locked SMALLINT NOT NULL,
   UNIQUE(username)
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS role_user (
   role_id INT,
   user_id INT,
   FOREIGN KEY (role_id) REFERENCES role (id),
-  FOREIGN KEY (user_id) REFERENCES user_details (id)
+  FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE INDEX IF NOT EXISTS role_id ON role_user (role_id);

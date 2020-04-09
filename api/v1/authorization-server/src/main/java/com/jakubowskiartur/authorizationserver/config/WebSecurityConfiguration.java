@@ -10,25 +10,26 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @Configuration
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PACKAGE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     UserDetailsService userDetailsService;
 
     @Bean
     @SneakyThrows
-    protected AuthenticationManager authenticationManager() {
-        return super.authenticationManager();
+    public AuthenticationManager authenticationManagerBean() {
+        return super.authenticationManagerBean();
     }
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override

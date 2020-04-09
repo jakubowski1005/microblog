@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "role")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue

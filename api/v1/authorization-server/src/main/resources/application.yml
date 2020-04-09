@@ -1,34 +1,27 @@
 spring:
   application:
     name: authorization-server
-#  security:
-#    user:
-#      name: artur
-#      password: pass123
-#      roles: ADMIN,USER
   datasource:
-    hikari:
-      connectionTimeout: 20000
-      maximum-pool-size: 5
-    url: jdbc:postgresql://localhost:5432/oauthtest
+#    hikari:
+#      connectionTimeout: 20000
+#      maximum-pool-size: 5
+    url: jdbc:postgresql://localhost:5432/test
     username: arturjakubowski
     password:
     initialization-mode: always
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: create
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         show_sql: true
         format_sql: true
 
-
 server:
   port: 8081
-
 
 eureka:
   client:
@@ -38,16 +31,7 @@ eureka:
     hostname: localhost
     non-secure-port: 8761
     prefer-ip-address: true
-#security:
-#  oauth2:
-#    client:
-#      client-id: mobile
-#      client-secret: pin
-#      access-token-validity-seconds: 3600
-#      authorized-grant-types: refresh_token,authorization_code,password,client_credentials
-#      scope: READ,WRITE
-#    authorization:
-#      check-token-access: permitAll
+
 logging:
   level:
     org:
