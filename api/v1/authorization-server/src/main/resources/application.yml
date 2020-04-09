@@ -5,7 +5,7 @@ spring:
 #    hikari:
 #      connectionTimeout: 20000
 #      maximum-pool-size: 5
-    url: jdbc:postgresql://localhost:5432/test
+    url: jdbc:postgresql://localhost:5432/testauth
     username: arturjakubowski
     password:
     initialization-mode: always
@@ -19,6 +19,14 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:8081/oauth/check_token
+    client:
+      client-id: mobile
+      client-secret: pin
 
 server:
   port: 8081
