@@ -1,6 +1,7 @@
 package com.jakubowskiartur.authorizationserver.model;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements Serializable {
 
@@ -41,7 +43,7 @@ public class User implements Serializable {
     @Column(name = "account_non_locked")
     boolean accountNonLocked;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "role_user", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")
     }, inverseJoinColumns = {

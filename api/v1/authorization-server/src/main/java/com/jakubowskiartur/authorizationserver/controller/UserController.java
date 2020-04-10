@@ -49,7 +49,4 @@ public class UserController {
                 .getPrincipal();
         return repository.findByUsername(user.getUsername()).orElse(null);
     }
-
-
-
 }

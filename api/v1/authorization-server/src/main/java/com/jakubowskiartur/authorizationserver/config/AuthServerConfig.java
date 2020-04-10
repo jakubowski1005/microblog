@@ -52,6 +52,7 @@ public class AuthServerConfig implements AuthorizationServerConfigurer {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
         endpoints
+                .prefix("/")
                 .tokenStore(jdbcTokenStore())
                 .authenticationManager(authenticationManager);
     }
