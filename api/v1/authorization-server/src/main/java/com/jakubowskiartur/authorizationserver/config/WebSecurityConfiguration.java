@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -52,7 +53,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/register", "/login")
+                .antMatchers("/login", "/register")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
@@ -63,6 +64,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         web
                 .ignoring()
-                .antMatchers("/register", "/login");
+                .antMatchers("/login", "/register");
     }
 }

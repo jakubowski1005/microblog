@@ -22,4 +22,5 @@ public class Resource {
     Integer id;
     String name;
     Double value;
+    String owner;
 }

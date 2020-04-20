@@ -43,7 +43,7 @@ public class User implements Serializable {
     @Column(name = "account_non_locked")
     boolean accountNonLocked;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_user", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")
     }, inverseJoinColumns = {
