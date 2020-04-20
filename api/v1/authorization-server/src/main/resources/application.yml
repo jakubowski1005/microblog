@@ -29,7 +29,7 @@ security:
       client-secret: pin
 
 server:
-  port: 8081
+  port: 8071
 
 eureka:
   client:
