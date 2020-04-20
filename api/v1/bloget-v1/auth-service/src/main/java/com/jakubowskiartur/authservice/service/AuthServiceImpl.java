@@ -46,6 +46,8 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userRepository.save(user);
+        log.debug("New user created: " + user.toString());
+
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
