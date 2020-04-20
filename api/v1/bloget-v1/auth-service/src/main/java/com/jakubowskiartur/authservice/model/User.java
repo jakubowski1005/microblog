@@ -1,9 +1,6 @@
 package com.jakubowskiartur.authservice.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -13,8 +10,8 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements Serializable {
 
