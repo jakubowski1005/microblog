@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/users/{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User receiveByUsername(String username) {
+    public User receiveByUsername(@PathVariable String username) {
         return service.receiveByUsername(username);
     }
 

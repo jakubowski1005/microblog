@@ -9,8 +9,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableAuthorizationServer
-@EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AuthServiceApplication {
 
