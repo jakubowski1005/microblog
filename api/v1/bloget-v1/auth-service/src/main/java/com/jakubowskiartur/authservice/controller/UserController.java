@@ -37,6 +37,7 @@ public class UserController {
     }
 
     @PutMapping("/users/me")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void changePassword(String password) {
         service.changePassword(password);
     }
@@ -48,6 +49,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/me")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void deletePrincipalAccount() {
         service.deletePrincipalAccount();
     }
