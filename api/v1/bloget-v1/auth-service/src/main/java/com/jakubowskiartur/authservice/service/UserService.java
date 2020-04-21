@@ -5,9 +5,9 @@ import com.jakubowskiartur.authservice.model.User;
 import com.jakubowskiartur.authservice.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,6 @@ public class UserService {
     }
 
     public void changePassword(String newPassword) {
-
         validatePassword(newPassword);
         repository
                 .findByUsername(getLoggedInUser())
@@ -44,7 +43,6 @@ public class UserService {
     }
 
     public void changeRoles(List<Role> roles) {
-
         repository
                 .findByUsername(getLoggedInUser())
                 .map(user -> {
@@ -54,6 +52,18 @@ public class UserService {
                             .collect(Collectors.toList()));
                     return repository.save(user);
                 });
+    }
+
+    public void deletePrincipalAccount() {
+        User user = repository
+                .findByUsername(getLoggedInUser())
+                .orElseThrow(() -> new UsernameNotFoundException("Principal doesn't exist."));
+
+        repository.delete(user);
+    }
+
+    public void deleteUserById(Long id) {
+        repository.deleteById(id);
     }
 
     private void validatePassword(String password) {
@@ -72,7 +82,6 @@ public class UserService {
     }
 
     private String getLoggedInUser() {
-
         User loggedInUser = (User) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -80,13 +89,4 @@ public class UserService {
 
         return loggedInUser.getUsername();
     }
-
-
-
-    //    GET		users		ROLE ADMIN
-//    GET		user by id		ONLY PRINCIPAL
-//    PUT		changePass	ONLY PRINCIPAL
-//    PUT		set role		ROLE ADMIN
-//    DELETE	user			ONLY PRINCIPAL
-//    DELETE	user by id		ROLE ADMIN
 }
