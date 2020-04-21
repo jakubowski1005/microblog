@@ -1,7 +1,6 @@
 package com.jakubowskiartur.authservice.service;
 
 import com.jakubowskiartur.authservice.model.User;
-import com.jakubowskiartur.authservice.payload.SignUpRequest;
 import com.jakubowskiartur.authservice.repository.RoleRepository;
 import com.jakubowskiartur.authservice.repository.UserRepository;
 import lombok.AccessLevel;
