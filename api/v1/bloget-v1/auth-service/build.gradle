@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id "org.springframework.cloud.contract" version "2.2.2.RELEASE"
 }
 
 group = 'com.jakubowskiartur'
@@ -27,6 +28,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
+    implementation 'org.springframework.cloud:spring-cloud-contract-verifier'
+    implementation 'org.springframework.security:spring-security-test'
+    implementation 'com.c4-soft.springaddons:spring-addons:2.0.3'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
