@@ -1,7 +1,6 @@
 package com.jakubowskiartur.authservice.controller;
 
 import com.jayway.jsonpath.JsonPath;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,6 @@ public class UserControllerIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private PasswordEncoder encoder;
-    private ObjectMapper mapper = new ObjectMapper();
 
     @Test
     @Order(1)
@@ -117,7 +115,7 @@ public class UserControllerIntegrationTest {
         mockMvc.perform(put("/users/me")
                     .header("Authorization", "Bearer " + obtainAccessToken("user"))
                     .contentType("application/json;charset=UTF-8")
-                .content("Pass1234"))
+                    .content("Pass1234"))
                 .andExpect(status().isOk());
 
         String body = mockMvc.perform(get("/users/1")
