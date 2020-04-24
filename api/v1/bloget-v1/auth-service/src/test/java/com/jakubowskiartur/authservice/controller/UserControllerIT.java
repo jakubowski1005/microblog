@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserControllerIntegrationTest {
+public class UserControllerIT {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private PasswordEncoder encoder;
