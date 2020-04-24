@@ -106,4 +106,6 @@ public class UserServiceImpl implements UserService {
 
         return loggedInUser.getUsername();
     }
+
+    //TODO Add logging
 }
