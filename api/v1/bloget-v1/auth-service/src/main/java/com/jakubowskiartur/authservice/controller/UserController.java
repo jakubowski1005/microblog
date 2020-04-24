@@ -30,7 +30,7 @@ public class UserController {
         return service.receiveUserById(id);
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping("/users/username/{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User receiveByUsername(@PathVariable String username) {
         return service.receiveByUsername(username);
@@ -38,14 +38,14 @@ public class UserController {
 
     @PutMapping("/users/me")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public void changePassword(String password) {
+    public void changePassword(@RequestBody String password) {
         service.changePassword(password);
     }
 
     @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void changeRoles(@PathVariable Long id, List<Role> roles) {
-        service.changeRoles(id, roles);
+    public void addRole(@PathVariable Long id, @RequestBody String role) {
+        service.addRole(id, role);
     }
 
     @DeleteMapping("/users/me")

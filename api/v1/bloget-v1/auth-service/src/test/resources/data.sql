@@ -21,4 +21,7 @@ INSERT INTO role_user (role_id, user_id)
 VALUES
 (1, 1) /* test-user */,
 (2, 2) /* test-mod */,
-(3, 3) /* test-admin */;
+(1, 2),
+(3, 3) /* test-admin */,
+(2, 3),
+(1, 3);
