@@ -111,7 +111,7 @@ public class UserControllerIT {
 
     @Test
     @Order(10)
-    public void ifPrincipal_thenCanChangePassword() throws Exception {
+    public void userCanChangeOwnPassword() throws Exception {
         mockMvc.perform(put("/users/me")
                     .header("Authorization", "Bearer " + obtainAccessToken("user"))
                     .contentType("application/json;charset=UTF-8")
@@ -120,6 +120,7 @@ public class UserControllerIT {
 
         String body = mockMvc.perform(get("/users/1")
                     .header("Authorization", "Bearer " + obtainAccessToken("admin")))
+                .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -165,7 +166,7 @@ public class UserControllerIT {
 
     @Test
     @Order(14)
-    public void ifPrincipal_thenCanDeleteAccount() throws Exception {
+    public void userCanDeleteOwnAccount() throws Exception {
         mockMvc.perform(delete("/users/me")
                     .header("Authorization", "Bearer " + obtainAccessToken("mod")))
                 .andExpect(status().isOk());

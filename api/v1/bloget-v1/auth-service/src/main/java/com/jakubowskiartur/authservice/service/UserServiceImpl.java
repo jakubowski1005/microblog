@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(String newPassword) {
-        //validatePassword(newPassword);
+        validatePassword(newPassword);
         userRepository
                 .findByUsername(getLoggedInUser())
                 .map(user -> {
@@ -84,17 +84,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validatePassword(String password) {
-
-        if (password.length() <= 8) {
-            throw new InvalidCredentialsException("Password must be at least 8 characters.");
-        }
-
-        if (!password.matches("^(?=.*[0-9])")) {
-            throw new InvalidCredentialsException("Password must contain at least 1 number.");
-        }
-
-        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])")) {
-            throw new InvalidCredentialsException("Password must contain capital and small case letters.");
+        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")) {
+            throw new InvalidCredentialsException(
+                    "Password must contain minimum eight characters, at least one uppercase, one lowercase and one number."
+            );
         }
     }
 
@@ -104,7 +97,7 @@ public class UserServiceImpl implements UserService {
                 .getAuthentication()
                 .getPrincipal();
 
-        return loggedInUser.getUsername();
+        return loggedInUser == null ? null : loggedInUser.getUsername();
     }
 
     //TODO Add logging

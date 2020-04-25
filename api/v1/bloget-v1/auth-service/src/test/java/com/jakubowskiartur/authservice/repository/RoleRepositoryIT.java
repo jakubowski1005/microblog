@@ -1,65 +1,38 @@
 package com.jakubowskiartur.authservice.repository;
 
 import com.jakubowskiartur.authservice.model.Role;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DataJpaTest
 @ContextConfiguration
 class RoleRepositoryIT {
 
-    @Autowired TestEntityManager entityManager;
     @Autowired RoleRepository repository;
-
-    Role firstRole;
-    Role secondRole;
-
-    @BeforeEach
-    void setUp() {
-        firstRole = new Role(null, "ROLE_TESTER");
-        secondRole = new Role(null, "ROLE_QA");
-
-        entityManager.persist(firstRole);
-        entityManager.persist(secondRole);
-        entityManager.flush();
-    }
-
-    @Test
-    void injectedObjectsAreNotNull() {
-        assertAll(
-                () -> assertThat(entityManager).isNotNull(),
-                () -> assertThat(repository).isNotNull()
-        );
-    }
 
     @Test
     void shouldFindRoleByItsName() {
+        //given
+        var role = new Role(2L, "ROLE_MOD");
+
         //when
         Role found1 = repository
-                .findByName(firstRole.getName())
+                .findByName("ROLE_MOD")
                 .orElse(null);
 
         Role found2 = repository
-                .findByName(secondRole.getName())
+                .findByName("ROLE_BANNED")
                 .orElse(null);
 
-        //expect
+        //then
         assertAll(
-                () -> assertThat(found1).isEqualTo(firstRole),
-                () -> assertThat(found2).isEqualTo(secondRole)
+                () -> assertThat(found1).isEqualTo(role),
+                () -> assertThat(found2).isEqualTo(null)
         );
-    }
-
-    @AfterEach
-    void tearDown() {
-        entityManager.clear();
     }
 }
