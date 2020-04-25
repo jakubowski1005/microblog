@@ -1,7 +1,7 @@
 package com.jakubowskiartur.authservice.controller;
 
-import com.jakubowskiartur.authservice.service.SignUpRequest;
 import com.jakubowskiartur.authservice.service.AuthService;
+import com.jakubowskiartur.authservice.service.SignUpRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

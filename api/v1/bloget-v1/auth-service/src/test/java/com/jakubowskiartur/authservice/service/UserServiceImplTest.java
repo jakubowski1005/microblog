@@ -23,6 +23,7 @@ class UserServiceImplTest {
     UserRepository userRepository;
     RoleRepository roleRepository;
     PasswordEncoder encoder;
+    PasswordValidator validator;
 
     User user1;
     User user2;
@@ -33,7 +34,8 @@ class UserServiceImplTest {
         userRepository = mock(UserRepository.class);
         roleRepository = mock(RoleRepository.class);
         encoder = mock(PasswordEncoder.class);
-        service = new UserServiceImpl(userRepository, roleRepository, encoder);
+        validator = mock(PasswordValidator.class);
+        service = new UserServiceImpl(userRepository, roleRepository, encoder, validator);
 
         user1 = User.builder()
                 .id(1L)

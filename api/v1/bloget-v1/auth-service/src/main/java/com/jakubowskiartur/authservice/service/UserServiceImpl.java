@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     RoleRepository roleRepository;
     PasswordEncoder encoder;
+    PasswordValidator validator;
 
     @Override
     public List<User> receiveUsers() {
@@ -47,7 +48,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(String newPassword) {
-        validatePassword(newPassword);
+        if (!validator.validate(newPassword)) {
+            throw new InvalidCredentialsException(
+                    "Password must contain minimum eight characters, at least one uppercase, one lowercase and one number."
+            );
+        }
+
         userRepository
                 .findByUsername(getLoggedInUser())
                 .map(user -> {
@@ -89,14 +95,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) {
         log.info("Admin: {} delete account with ID {}. [{}]", getLoggedInUser(), id, new Date());
         userRepository.deleteById(id);
-    }
-
-    private void validatePassword(String password) {
-        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")) {
-            throw new InvalidCredentialsException(
-                    "Password must contain minimum eight characters, at least one uppercase, one lowercase and one number."
-            );
-        }
     }
 
     private String getLoggedInUser() {

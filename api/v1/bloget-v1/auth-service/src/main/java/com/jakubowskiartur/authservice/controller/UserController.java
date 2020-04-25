@@ -1,6 +1,5 @@
 package com.jakubowskiartur.authservice.controller;
 
-import com.jakubowskiartur.authservice.model.Role;
 import com.jakubowskiartur.authservice.model.User;
 import com.jakubowskiartur.authservice.service.UserServiceImpl;
 import lombok.AccessLevel;
@@ -9,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -38,7 +38,7 @@ public class UserController {
 
     @PutMapping("/users/me")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public void changePassword(@RequestBody String password) {
+    public void changePassword(@RequestBody @Valid String password) {
         service.changePassword(password);
     }
 

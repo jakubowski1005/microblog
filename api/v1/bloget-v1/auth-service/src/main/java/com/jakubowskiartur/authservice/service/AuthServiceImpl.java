@@ -38,13 +38,14 @@ public class AuthServiceImpl implements AuthService {
                 .username(login)
                 .email(email)
                 .password(encoder.encode(password))
-                .roles(Collections.singletonList(roleRepository.getOne(1L)))
+                .roles(null)
                 .enabled(true)
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
                 .build();
 
+        user.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_USER").orElse(null)));
         userRepository.save(user);
         log.info("User with a username {} has been created. [{}]", login, new Date());
 

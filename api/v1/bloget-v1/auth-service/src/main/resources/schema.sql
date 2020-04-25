@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(100) NOT NULL,
     password VARCHAR(1024) NOT NULL,
     email VARCHAR(1024) NOT NULL,
-    enabled SMALLINT NOT NULL,
-    account_non_expired SMALLINT NOT NULL,
-    credentials_non_expired SMALLINT NOT NULL,
-    account_non_locked SMALLINT NOT NULL,
+    enabled BOOLEAN NOT NULL,
+    account_non_expired BOOLEAN NOT NULL,
+    credentials_non_expired BOOLEAN NOT NULL,
+    account_non_locked BOOLEAN NOT NULL,
     UNIQUE(username)
 );
 

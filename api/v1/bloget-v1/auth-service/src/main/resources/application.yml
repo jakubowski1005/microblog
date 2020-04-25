@@ -4,9 +4,9 @@ server:
 
 spring:
   application:
-    name: authorization-server
+    name: auth-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/authdb
+    url: jdbc:postgresql://localhost:5432/adb
     username: arturjakubowski
     password:
     initialization-mode: always
@@ -23,11 +23,11 @@ security:
       client-id: mobile
       client-secret: pin
 
-#eureka:
-#  instance:
-#    hostname: localhost
-#    non-secure-port: 8761
-#    prefer-ip-address: true
-#  client:
-#    serviceUrl:
-#      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
+eureka:
+  instance:
+    hostname: localhost
+    non-secure-port: 8761
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
