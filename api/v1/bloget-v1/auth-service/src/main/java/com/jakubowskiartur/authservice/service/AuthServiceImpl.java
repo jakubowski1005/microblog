@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -45,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userRepository.save(user);
-        log.debug("New user created: " + user.toString());
+        log.info("User with a username {} has been created. [{}]", login, new Date());
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }

@@ -7,14 +7,17 @@ import com.jakubowskiartur.authservice.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
                 .findByUsername(getLoggedInUser())
                 .map(user -> {
                     user.setPassword(encoder.encode(newPassword));
+                    log.info("User: {} change his password. [{}]", getLoggedInUser(), new Date());
                     return userRepository.save(user);
                 });
     }
@@ -65,6 +69,8 @@ public class UserServiceImpl implements UserService {
                 roles.add(found);
                 user.setRoles(roles);
             }
+
+            log.info("User with ID {} now has roles: {}. [{}]", getLoggedInUser(), roles, new Date());
             return userRepository.save(user);
         });
     }
@@ -75,11 +81,13 @@ public class UserServiceImpl implements UserService {
                 .findByUsername(getLoggedInUser())
                 .orElseThrow(() -> new UsernameNotFoundException("Principal doesn't exist."));
 
+        log.info("User: {} delete account. [{}]", getLoggedInUser(), new Date());
         userRepository.delete(user);
     }
 
     @Override
     public void deleteUserById(Long id) {
+        log.info("Admin: {} delete account with ID {}. [{}]", getLoggedInUser(), id, new Date());
         userRepository.deleteById(id);
     }
 
@@ -99,6 +107,4 @@ public class UserServiceImpl implements UserService {
 
         return loggedInUser == null ? null : loggedInUser.getUsername();
     }
-
-    //TODO Add logging
 }
