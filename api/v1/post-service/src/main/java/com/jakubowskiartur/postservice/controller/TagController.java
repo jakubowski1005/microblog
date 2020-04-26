@@ -16,6 +16,8 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TagController {
 
+    //TODO Add integration tests
+
     TagService service;
 
     @GetMapping("/tags")

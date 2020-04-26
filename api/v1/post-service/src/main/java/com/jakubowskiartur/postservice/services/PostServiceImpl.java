@@ -54,6 +54,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post updatePost(Long id, PostDto updated) {
+        //TODO check if user is owner
         repository.findById(id).map(post -> {
             post.setContent(updated.getContent());
             post.setTags(tagFinder.find(updated.getContent()));
@@ -66,6 +67,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePost(Long id) {
+        //TODO check if user is owner
         log.info("User {} deleted post {}. [{}]", getLoggedInUser(), id, new Date());
         repository.deleteById(id);
     }
