@@ -1,6 +1,23 @@
 spring:
   application:
     name: post-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postdb
+    username: arturjakubowski
+    password:
+    initialization-mode: always
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:8081/oauth/check_token
+    client:
+      client-id: mobile
+      client-secret: pin
 
 server:
   port: 8093
