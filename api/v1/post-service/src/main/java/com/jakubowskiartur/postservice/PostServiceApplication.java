@@ -3,20 +3,15 @@ package com.jakubowskiartur.postservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@RestController
+@EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class PostServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(PostServiceApplication.class, args);
-    }
-
-    @GetMapping("/")
-    public String greeting() {
-        return "Hello from post service";
     }
 }
