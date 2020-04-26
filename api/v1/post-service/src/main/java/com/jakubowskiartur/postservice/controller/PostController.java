@@ -1,6 +1,7 @@
 package com.jakubowskiartur.postservice.controller;
 
 import com.jakubowskiartur.postservice.model.Post;
+import com.jakubowskiartur.postservice.services.PostService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,7 +16,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PostController {
 
-//    PostService service;
+    PostService service;
 
     @GetMapping("/posts")
     public List<Post> receivePosts() {

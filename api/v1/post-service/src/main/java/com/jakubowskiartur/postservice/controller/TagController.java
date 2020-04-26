@@ -1,6 +1,7 @@
 package com.jakubowskiartur.postservice.controller;
 
 import com.jakubowskiartur.postservice.model.Post;
+import com.jakubowskiartur.postservice.services.TagService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,15 +16,15 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TagController {
 
-    //TagService service;
+    TagService service;
 
     @GetMapping("/tags")
     public List<String> receiveListOfTags() {
-        return null;
+        return service.receiveListOfTags();
     }
 
     @GetMapping("/tags/{tag}")
     public List<Post> receivePostByTag(@PathVariable String tag) {
-        return null;
+        return service.receivePostByTag(tag);
     }
 }
