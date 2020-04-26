@@ -1,6 +1,7 @@
 package com.jakubowskiartur.postservice.controller;
 
 import com.jakubowskiartur.postservice.model.Post;
+import com.jakubowskiartur.postservice.model.PostDto;
 import com.jakubowskiartur.postservice.services.PostService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,13 +37,13 @@ public class PostController {
 
     @PostMapping("/posts")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> addPost(@RequestBody Post post) {
+    public ResponseEntity<?> addPost(@RequestBody @Valid PostDto post) {
         return null;
     }
 
     @PutMapping("/posts/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody Post updated) {
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody @Valid PostDto updated) {
         return null;
     }
 

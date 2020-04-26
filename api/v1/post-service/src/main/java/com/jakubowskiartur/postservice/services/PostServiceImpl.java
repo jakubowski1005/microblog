@@ -1,7 +1,9 @@
 package com.jakubowskiartur.postservice.services;
 
 import com.jakubowskiartur.postservice.model.Post;
+import com.jakubowskiartur.postservice.model.PostDto;
 import com.jakubowskiartur.postservice.repository.PostRepository;
+import com.jakubowskiartur.postservice.util.TagFinder;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +18,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     PostRepository repository;
+    TagFinder tagFinder;
 
     @Override
     public List<Post> receivePosts() {
@@ -33,20 +36,29 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post addPost(Post post) {
-        post.setOwner(getLoggedInUser());
-        post.s
-        return null;
+    public Post addPost(PostDto post) {
+        Post postObj = Post.builder()
+                .content(post.getContent())
+                .tags(tagFinder.find(post.getContent()))
+                .owner(getLoggedInUser())
+                .build();
+
+        return repository.save(postObj);
     }
 
     @Override
-    public Post updatePost(Long id, Post updated) {
-        return null;
+    public Post updatePost(Long id, PostDto updated) {
+        repository.findById(id).map(post -> {
+            post.setContent(updated.getContent());
+            post.setTags(tagFinder.find(updated.getContent()));
+            return repository.save(post);
+        });
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public void deletePost(Long id) {
-
+        repository.deleteById(id);
     }
 
     private String getLoggedInUser() {
