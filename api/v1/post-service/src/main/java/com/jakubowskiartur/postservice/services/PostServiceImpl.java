@@ -3,7 +3,7 @@ package com.jakubowskiartur.postservice.services;
 import com.jakubowskiartur.postservice.model.Post;
 import com.jakubowskiartur.postservice.model.PostDto;
 import com.jakubowskiartur.postservice.repository.PostRepository;
-import com.jakubowskiartur.postservice.util.TagFinder;
+import com.jakubowskiartur.postservice.utils.TagFinder;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

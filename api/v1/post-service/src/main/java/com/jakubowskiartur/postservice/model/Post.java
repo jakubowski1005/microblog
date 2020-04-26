@@ -1,6 +1,6 @@
 package com.jakubowskiartur.postservice.model;
 
-import com.jakubowskiartur.postservice.util.StringSetConverter;
+import com.jakubowskiartur.postservice.utils.StringSetConverter;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

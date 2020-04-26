@@ -1,4 +1,4 @@
-package com.jakubowskiartur.postservice.util;
+package com.jakubowskiartur.postservice.utils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
