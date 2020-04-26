@@ -7,15 +7,20 @@ import com.jakubowskiartur.postservice.util.TagFinder;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PostServiceImpl implements PostService {
+
+    //TODO Add unit tests
 
     PostRepository repository;
     TagFinder tagFinder;
@@ -43,6 +48,7 @@ public class PostServiceImpl implements PostService {
                 .owner(getLoggedInUser())
                 .build();
 
+        log.info("User {} created new post. [{}]", getLoggedInUser(), new Date());
         return repository.save(postObj);
     }
 
@@ -53,11 +59,14 @@ public class PostServiceImpl implements PostService {
             post.setTags(tagFinder.find(updated.getContent()));
             return repository.save(post);
         });
+
+        log.info("User {} updated post {}. [{}]", getLoggedInUser(), id, new Date());
         return repository.findById(id).orElse(null);
     }
 
     @Override
     public void deletePost(Long id) {
+        log.info("User {} deleted post {}. [{}]", getLoggedInUser(), id, new Date());
         repository.deleteById(id);
     }
 
