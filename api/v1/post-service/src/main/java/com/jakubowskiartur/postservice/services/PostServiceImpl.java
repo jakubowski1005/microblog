@@ -5,6 +5,7 @@ import com.jakubowskiartur.postservice.repository.PostRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,21 +19,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> receivePosts() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
     public Post receivePostById(Long id) {
-        return null;
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public List<Post> receivePostsByUser(String username) {
-        return null;
+        return repository.getAllByOwner(username);
     }
 
     @Override
     public Post addPost(Post post) {
+        post.setOwner(getLoggedInUser());
+        post.s
         return null;
     }
 
@@ -44,5 +47,12 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePost(Long id) {
 
+    }
+
+    private String getLoggedInUser() {
+        return (String) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
     }
 }
