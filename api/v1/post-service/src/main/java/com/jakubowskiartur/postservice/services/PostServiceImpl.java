@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post updatePost(Long id, PostDto updated) {
-        //TODO check if user is owner
+        checkOwnership(id);
         repository.findById(id).map(post -> {
             post.setContent(updated.getContent());
             post.setTags(tagFinder.find(updated.getContent()));
@@ -67,9 +68,24 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePost(Long id) {
-        //TODO check if user is owner
+        checkOwnership(id);
         log.info("User {} deleted post {}. [{}]", getLoggedInUser(), id, new Date());
         repository.deleteById(id);
+    }
+
+    private void checkOwnership(Long id) {
+        if (!isOwner(id)) {
+            throw new ResourceAccessException("You are not allowed to manage the resources.");
+        }
+    }
+
+    private boolean isOwner(Long id) {
+        var post = repository.findById(id);
+        if (post.isEmpty()) return false;
+        return post
+                .get()
+                .getOwner()
+                .equals(getLoggedInUser());
     }
 
     private String getLoggedInUser() {
