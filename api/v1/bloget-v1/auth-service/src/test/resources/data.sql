@@ -8,20 +8,20 @@ VALUES (1, 'ROLE_USER'),(2, 'ROLE_MOD'),(3, 'ROLE_ADMIN');
 
 -- oAuth2 users
 INSERT INTO users (id, username, password, email, enabled, account_non_expired, credentials_non_expired, account_non_locked)
-VALUES (1, 'test_user','{bcrypt}$2a$10$RqdCJE0jAc2J1dYdjMfr3eLIWc.OAXZZwpmxtIJqPSPPRc7J7NrmG', 'email@gmail.com', '1', '1', '1', '1');
+VALUES (11, 'test_user','{bcrypt}$2a$10$RqdCJE0jAc2J1dYdjMfr3eLIWc.OAXZZwpmxtIJqPSPPRc7J7NrmG', 'email@gmail.com', '1', '1', '1', '1');
 
 INSERT INTO users (id, username, password, email, enabled, account_non_expired, credentials_non_expired, account_non_locked)
-VALUES (2, 'test_mod', '{bcrypt}$2a$10$RqdCJE0jAc2J1dYdjMfr3eLIWc.OAXZZwpmxtIJqPSPPRc7J7NrmG','email@gmail.com', '1', '1', '1', '1');
+VALUES (12, 'test_mod', '{bcrypt}$2a$10$RqdCJE0jAc2J1dYdjMfr3eLIWc.OAXZZwpmxtIJqPSPPRc7J7NrmG','email@gmail.com', '1', '1', '1', '1');
 
 INSERT INTO users (id, username, password, email, enabled, account_non_expired, credentials_non_expired, account_non_locked)
-VALUES (3, 'test_admin', '{bcrypt}$2a$10$RqdCJE0jAc2J1dYdjMfr3eLIWc.OAXZZwpmxtIJqPSPPRc7J7NrmG','email@gmail.com', '1', '1', '1', '1');
+VALUES (13, 'test_admin', '{bcrypt}$2a$10$RqdCJE0jAc2J1dYdjMfr3eLIWc.OAXZZwpmxtIJqPSPPRc7J7NrmG','email@gmail.com', '1', '1', '1', '1');
 
 
 INSERT INTO role_user (role_id, user_id)
 VALUES
-(1, 1) /* test-user */,
-(2, 2) /* test-mod */,
-(1, 2),
-(3, 3) /* test-admin */,
-(2, 3),
-(1, 3);
+(1, 11) /* test-user */,
+(2, 12) /* test-mod */,
+(1, 12),
+(3, 13) /* test-admin */,
+(2, 13),
+(1, 13);

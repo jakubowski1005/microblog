@@ -86,6 +86,6 @@ class AuthControllerIT {
         mockMvc.perform(post("/register")
                 .contentType("application/json;charset=UTF-8")
                 .content(json))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isCreated());
     }
 }

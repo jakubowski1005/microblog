@@ -74,6 +74,6 @@ class AuthServiceImplTest {
         assertThat(response.getStatusCodeValue()).isEqualTo(201);
         assertThat(created).isNotNull();
         assertThat(created.getUsername()).isEqualTo(username);
-        assertThat(created.getRoles().get(0).getName()).isEqualTo("ROLE_USER");
+        assertThat(created.getRoles().size()).isEqualTo(1);
     }
 }

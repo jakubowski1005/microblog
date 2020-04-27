@@ -51,10 +51,10 @@ public class UserControllerIT {
         mockMvc.perform(get("/users")
                     .header("Authorization", "Bearer " + obtainAccessToken("admin")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$", hasSize(4)))
                 .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[1].username", is("test_mod")))
-                .andExpect(jsonPath("$[2].roles", hasSize(3)));
+                .andExpect(jsonPath("$[1].username", is("test_user")))
+                .andExpect(jsonPath("$[2].roles", hasSize(2)));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class UserControllerIT {
                 .header("Authorization", "Bearer " + obtainAccessToken("admin")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.username", is("test_user")))
+                .andExpect(jsonPath("$.username", is("mewtwoo")))
                 .andExpect(jsonPath("$.roles", hasSize(1)));
     }
 
@@ -104,7 +104,7 @@ public class UserControllerIT {
         mockMvc.perform(get("/users/username/test_mod")
                 .header("Authorization", "Bearer " + obtainAccessToken("admin")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(2)))
+                .andExpect(jsonPath("$.id", is(12)))
                 .andExpect(jsonPath("$.username", is("test_mod")))
                 .andExpect(jsonPath("$.roles", hasSize(2)));
     }

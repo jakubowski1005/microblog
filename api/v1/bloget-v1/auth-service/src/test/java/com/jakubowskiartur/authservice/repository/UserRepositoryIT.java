@@ -19,7 +19,7 @@ class UserRepositoryIT {
     void shouldFindUserByUsername() {
         //given
         var user = User.builder()
-                .id(1L)
+                .id(11L)
                 .username("test_user")
                 .email("email@gmail.com")
                 .password("{bcrypt}$2a$10$RqdCJE0jAc2J1dYdjMfr3eLIWc.OAXZZwpmxtIJqPSPPRc7J7NrmG")
