@@ -5,6 +5,7 @@ import com.jakubowskiartur.postservice.model.PostDto;
 import com.jakubowskiartur.postservice.repository.PostRepository;
 import com.jakubowskiartur.postservice.utils.TagFinder;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -43,6 +44,7 @@ class PostServiceImplTest {
         post3 = new Post(3L, "#love #peace #sex", Set.of("love", "peace", "sex"), "mock");
     }
 
+    @Disabled
     @Test
     public void shouldReturnListOfPosts() {
         //when
