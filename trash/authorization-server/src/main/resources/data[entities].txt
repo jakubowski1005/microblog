@@ -1,0 +1,16 @@
+INSERT INTO role (id, name)
+VALUES (1, 'ROLE_USER'),(2, 'ROLE_MOD'),(3, 'ROLE_ADMIN');
+
+
+INSERT INTO users (id, username, password, email, enabled, account_non_expired, credentials_non_expired, account_non_locked)
+VALUES ('10', 'martynka_user','{bcrypt}$2a$10$ODGwrk2ufy5d7T6afmACwOA/6j6rvXiP5amAMt1YjOQSdEw44QdqG', 'k@krishantha.com', '1', '1', '1', '1');
+
+INSERT INTO users (id, username, password, email, enabled, account_non_expired, credentials_non_expired, account_non_locked)
+VALUES ('11', 'martynka_mod', '{bcrypt}$2a$10$wQ8vZl3Zm3.zDSIcZEYym.bGq3fPMJXH9k.Vhudcfr6O6KQwDPSt6','k@krishantha.com', '1', '1', '1', '1');
+
+INSERT INTO users (id, username, password, email, enabled, account_non_expired, credentials_non_expired, account_non_locked)
+VALUES ('12', 'artur_admin', '{bcrypt}$2a$10$wQ8vZl3Zm3.zDSIcZEYym.bGq3fPMJXH9k.Vhudcfr6O6KQwDPSt6','k@krishantha.com', '1', '1', '1', '1');
+
+
+INSERT INTO role_user (role_id, user_id)
+VALUES (1, 10) /* martyna-user */, (2, 11) /* martyna-mod */, (3, 12) /* artur-admin */;
