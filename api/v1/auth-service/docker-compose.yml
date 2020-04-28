@@ -1,0 +1,30 @@
+version: "3"
+services:
+
+  auth-database:
+    image: postgres:latest
+    container_name: auth-database
+    volumes:
+      - auth-database:/var/lib/postgresql/data
+    ports:
+      - 5431:5431
+    environment:
+      - POSTGRES_DB=adb
+      - POSTGRES_USER=arturjakubowski
+      - POSTGRES_PASSWORD=password
+
+  auth-service:
+    build: .
+    container_name: auth-service
+    environment:
+      - DB_SERVER=auth-database
+      - POSTGRES_DB=adb
+      - POSTGRES_USER=arturjakubowski
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 8081:8081
+    links:
+      - auth-database
+
+volumes:
+  auth-database:
