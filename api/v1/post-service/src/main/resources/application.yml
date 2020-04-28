@@ -1,8 +1,11 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: post-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/postdb
+    url: jdbc:postgresql://${DB_SERVER}/${POSTGRES_DB}
     username: arturjakubowski
     password:
     initialization-mode: always
@@ -14,20 +17,15 @@ spring:
 security:
   oauth2:
     resource:
-      token-info-uri: http://localhost:8081/oauth/check_token
+      token-info-uri: http://auth-service:8081/oauth/check_token
     client:
       client-id: mobile
       client-secret: pin
 
-server:
-  port: 8093
-
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
+      defaultZone: http://service-registry:8761/eureka/
   instance:
-    hostname: localhost
-    non-secure-port: 8761
     prefer-ip-address: true
 
