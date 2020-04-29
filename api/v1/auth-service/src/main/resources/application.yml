@@ -5,7 +5,7 @@ spring:
   application:
     name: auth-service
   datasource:
-    url: jdbc:postgresql://${DB_SERVER}/${POSTGRES_DB}
+    url: jdbc:postgresql://${DB_SERVER}/${POSTGRES_AUTH_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     initialization-mode: always
