@@ -52,9 +52,9 @@ public class UserControllerIT {
                     .header("Authorization", "Bearer " + obtainAccessToken("admin")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(4)))
-                .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[1].username", is("test_user")))
-                .andExpect(jsonPath("$[2].roles", hasSize(2)));
+                .andExpect(jsonPath("$[0].id", is(11)))
+                .andExpect(jsonPath("$[1].username", is("test_mod")))
+                .andExpect(jsonPath("$[2].roles", hasSize(3)));
     }
 
     @Test

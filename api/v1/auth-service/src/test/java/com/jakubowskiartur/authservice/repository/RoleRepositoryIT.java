@@ -3,14 +3,12 @@ package com.jakubowskiartur.authservice.repository;
 import com.jakubowskiartur.authservice.model.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@DataJpaTest
-@ContextConfiguration
+@SpringBootTest
 class RoleRepositoryIT {
 
     @Autowired RoleRepository repository;

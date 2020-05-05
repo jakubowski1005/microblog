@@ -1,13 +1,14 @@
 spring:
   datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:~/test
-    username: sa
-    password:
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:9.6.8:///testdb?TC_INITSCRIPT=init_test_db.sql
+    username: postgres
+    password: password
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: false
     show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+
+eureka:
+  client:
+    enabled: false
