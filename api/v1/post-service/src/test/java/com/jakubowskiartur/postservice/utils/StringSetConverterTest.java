@@ -1,7 +1,6 @@
 package com.jakubowskiartur.postservice.utils;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -13,19 +12,22 @@ class StringSetConverterTest {
     StringSetConverter converter;
     Set<String> strings;
     String string;
+    String[] stringArr;
 
     @BeforeEach
     public void setup() {
         converter = new StringSetConverter();
         strings = Set.of("hello", "happy", "summer", "peace");
         string = "hello;happy;summer;peace";
+        stringArr = new String[]{"hello", "happy", "summer", "peace"};
     }
 
-    @Disabled
     @Test
     public void shouldConvertSetToSingleString() {
-        assertThat(converter.convertToDatabaseColumn(strings))
-                .isEqualTo(string);
+        String found = converter.convertToDatabaseColumn(strings);
+        String[] foundToArr = found.split(";");
+
+        assertThat(foundToArr).containsExactlyInAnyOrder(stringArr);
     }
 
     @Test
@@ -33,5 +35,4 @@ class StringSetConverterTest {
         assertThat(converter.convertToEntityAttribute(string))
                 .isEqualTo(strings);
     }
-
 }

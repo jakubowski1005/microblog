@@ -5,9 +5,9 @@ spring:
   application:
     name: post-service
   datasource:
-    url: jdbc:postgresql://${DB_SERVER}/${POSTGRES_POST_DB}
+    url: jdbc:postgresql://${DB_SERVER}/${POSTGRES_DB}
     username: arturjakubowski
-    password:
+    password: password
     initialization-mode: always
     driver-class-name: org.postgresql.Driver
   jpa:
