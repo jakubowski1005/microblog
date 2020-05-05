@@ -12,7 +12,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
 security:
   oauth2:
@@ -27,4 +27,4 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://service-registry:8761/eureka
+      defaultZone: http://service-registry:8761/eureka/

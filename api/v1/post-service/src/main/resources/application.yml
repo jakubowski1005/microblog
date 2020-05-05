@@ -6,8 +6,8 @@ spring:
     name: post-service
   datasource:
     url: jdbc:postgresql://${DB_SERVER}/${POSTGRES_DB}
-    username: arturjakubowski
-    password: password
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     initialization-mode: always
     driver-class-name: org.postgresql.Driver
   jpa:
