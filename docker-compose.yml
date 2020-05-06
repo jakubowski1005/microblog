@@ -18,7 +18,7 @@ services:
     ports:
       - 8081:8081
     links:
-      - postgres
+      - authdb
 
   post-service:
     build: ./api/v1/post-service
@@ -31,7 +31,7 @@ services:
     ports:
       - 8082:8082
     links:
-      - postgres
+      - postdb
 
   email-service:
     build: ./api/v1/email-service
@@ -65,7 +65,7 @@ services:
 
   postdb:
     image: postgres:latest
-    container_name: postgres
+    container_name: postdb
     volumes:
       - postdb:/var/lib/postgresql/data
     ports:
