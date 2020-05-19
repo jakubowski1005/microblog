@@ -1,12 +1,12 @@
 node {
     stage('Compile') {
-        sh '''cd api/api-gateway && ./gradlew clean classes
-        cd ../auth-service && ./gradlew clean classes
+        sh '''cd $WORKSPACE/api/api-gateway && ./gradlew clean classes
+        cd $WORKSPACE/api/auth-service && ./gradlew clean classes
         '''
     }
     stage('Build') {
-        sh '''cd api/api-gateway && ./gradlew build
-        cd ../auth-service && ./gradlew build
+        sh '''cd $WORKSPACE/api/api-gateway && ./gradlew build
+        cd $WORKSPACE/api/auth-service && ./gradlew build
         ''' 
     }
 }
