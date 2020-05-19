@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+zuul:
+  routes:
+    service-registry:
+      path: /eureka/**
+      serviceId: service-registry
+    auth-service:
+      path: /auth/**
+      serviceId: auth-service
+    email-service:
+      path: /emails/**
+      serviceId: email-service
+    log-service:
+      path: /logs/**
+      serviceId: log-service
+    post-service:
+      path: /posts/**
+      serviceId: post-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://service-registry:8761/eureka
+  instance:
+    prefer-ip-address: true
