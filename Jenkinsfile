@@ -9,20 +9,24 @@ pipeline {
         stage('Compile') {
             steps {
                 dir('api/api-gateway') {
-                    gradlew('clean', 'classes')
+                    echo 'Compiling api gateway'
+                    // gradlew('clean', 'classes')
                 }
                 dir('api/auth-service') {
-                    gradlew('clean', 'classes')
+                    echo 'Compiling auth service'
+                    // gradlew('clean', 'classes')
                 }
             }
         }
         stage('Test and build') {
             steps {
                 dir('api/api-gateway') {
-                    gradlew('build')
+                    echo 'Building api gateway'
+                    // gradlew('build')
                 }
                 dir('api/auth-service') {
-                    gradlew('build')
+                    echo 'Building auth service'
+                    // gradlew('build')
                 }
             }
             post {
