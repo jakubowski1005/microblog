@@ -1,3 +1,5 @@
+def buildBadge = addEmbeddableBadgeConfiguration(id: "buildBadge", subject: "build")
+
 pipeline {
     agent any
 
@@ -65,5 +67,3 @@ pipeline {
 def gradlew(String... args) {
     sh "./gradlew ${args.join(' ')} -s"
 }
-
-def buildBadge = addEmbeddableBadgeConfiguration(id: "buildBadge", subject: "build")
