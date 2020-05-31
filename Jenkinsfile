@@ -39,6 +39,7 @@ pipeline {
             }
         }
     }
+}
 
 def gradlew(String... args) {
     sh "./gradlew ${args.join(' ')} -s"
