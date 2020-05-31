@@ -23,6 +23,14 @@ pipeline {
                 }
             }
         }
+
+        stage('JaCoCo Coverage') {
+            steps {
+                echo 'JaCoCo reporting'
+                jacoco exclusionPattern: '**/test/**,**/lib/*', inclusionPattern: '**/*.class,**/*.java' 
+            }
+        }
+
         stage('Send E-Mail') {
             steps {
                 echo 'Sending E-Mail...'
