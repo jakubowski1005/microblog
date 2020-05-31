@@ -27,7 +27,7 @@ pipeline {
             steps {
                 echo 'Sending E-Mail...'
                 script {
-                    def mail = 'jakubowski1005@gmail.com'
+                    def mail = 'dev.jakubowski@gmail.com'
                     def job = currentBuild.fullDisplayName
                     emailext body: '''${SCRIPT, template="groovy-html.template"}''',
                     mimeType: 'text/html',
