@@ -1,5 +1,3 @@
-def buildBadge = addEmbeddableBadgeConfiguration(id: "buildBadge", subject: "build")
-
 pipeline {
     agent any
 
@@ -41,28 +39,6 @@ pipeline {
             }
         }
     }
-
-    post {
-        failure {
-            script {
-                buildBadge.setStatus('failed')
-                buildBadge.setColor('red')
-            }
-        }
-        unstable {
-            script {
-                buildBadge.setStatus('test failed')
-                buildBadge.setColor('yellow')
-            }
-        }
-        success {
-            script {
-                buildBadge.setStatus('passed')
-                buildBadge.setColor('brightgreen')
-            }
-        }
-    }
-}
 
 def gradlew(String... args) {
     sh "./gradlew ${args.join(' ')} -s"
