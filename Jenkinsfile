@@ -21,24 +21,25 @@ pipeline {
                 }
             }
         }
-
-        stage('Code Coverage') {
-            steps {
-                jacoco exclusionPattern: '**/test/**,**/lib/*', inclusionPattern: '**/*.class,**/*.java' 
+        stage('Check code quality') {
+            parallel {
+                stage('Code Coverage') {
+                    steps {
+                        jacoco exclusionPattern: '**/test/**,**/lib/*', inclusionPattern: '**/*.class,**/*.java' 
+                    }
+                }
+                stage('Static Code Analysis') {
+                    steps {
+                        dir('api/api-gateway') {
+                            gradlew('pmdMain', 'pmdTest')
+                        }
+                        dir('api/service-registry') {
+                            gradlew('pmdMain', 'pmdTest')
+                        }
+                    }
+                }
             }
         }
-
-        stage('Static Code Analysis') {
-            steps {
-                dir('api/api-gateway') {
-                    gradlew('pmdMain', 'pmdTest')
-                }
-                dir('api/service-registry') {
-                    gradlew('pmdMain', 'pmdTest')
-                }
-            }
-        }
-
         stage('Send E-Mail') {
             steps {
                 script {
