@@ -9,11 +9,9 @@ pipeline {
         stage('Test and build') {
             steps {
                 dir('api/api-gateway') {
-                    echo 'Building api gateway...'
                     gradlew('clean', 'build')
                 }
                 dir('api/service-registry') {
-                    echo 'Building auth service...'
                     gradlew('clean', 'build')
                 }
             }
@@ -24,22 +22,32 @@ pipeline {
             }
         }
 
-        stage('JaCoCo Coverage') {
+        stage('Code Coverage') {
             steps {
-                echo 'JaCoCo reporting'
                 jacoco exclusionPattern: '**/test/**,**/lib/*', inclusionPattern: '**/*.class,**/*.java' 
+            }
+        }
+
+        stage('Static Code Analysis') {
+            steps {
+                dir('api/api-gateway') {
+                    gradlew('pmdMain', 'pmdTest')
+                }
+                dir('api/service-registry') {
+                    gradlew('pmdMain', 'pmdTest')
+                }
             }
         }
 
         stage('Send E-Mail') {
             steps {
-                echo 'Sending E-Mail...'
                 script {
                     def mail = 'dev.jakubowski@gmail.com'
                     def job = currentBuild.fullDisplayName
+                    def status = currentBuild.currentResult
                     emailext body: '''${SCRIPT, template="groovy-html.template"}''',
                     mimeType: 'text/html',
-                    subject: "[Jenkins] ${job}",
+                    subject: "[Jenkins] ${job} - ${status}",
                     to: "${mail}",
                     replyTo: "${mail}",
                     recipientProviders: [[$class: 'CulpritsRecipientProvider']]
