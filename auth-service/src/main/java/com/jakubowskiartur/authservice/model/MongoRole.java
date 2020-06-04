@@ -5,21 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.io.Serializable;
-
-@Deprecated
-@Entity
+@Document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Role implements Serializable {
+public class MongoRole {
 
     @Id
-    @GeneratedValue
-    Long id;
-
-    String name;
+    String id;
+    String role;
 }
