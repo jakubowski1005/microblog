@@ -1,10 +1,10 @@
 package com.jakubowskiartur.authservice.service;
 
-import com.jakubowskiartur.authservice.model.MongoUser;
+import com.jakubowskiartur.authservice.model.User;
 import org.springframework.http.ResponseEntity;
-import reactor.core.publisher.Mono;
 
+@Deprecated
 public interface AuthService {
 
-    Mono<ResponseEntity<MongoUser>> register(SignUpRequest request);
+    ResponseEntity<User> register(SignUpRequest request);
 }

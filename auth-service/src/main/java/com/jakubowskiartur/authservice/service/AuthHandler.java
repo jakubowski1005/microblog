@@ -15,7 +15,7 @@ import java.util.Collections;
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class AuthHandler implements AuthService {
+public class AuthHandler implements ReactiveAuthService {
 
     MongoUserRepository repository;
     PasswordEncoder encoder;
