@@ -2,13 +2,13 @@ version: "3"
 services:
 
   api-gateway:
-    build: ./api/v1/api-gateway
+    build: ./api-gateway
     container_name: api-gateway
     ports:
       - 8080:8080
 
   auth-service:
-    build: ./api/v1/auth-service
+    build: ./auth-service
     container_name: auth-service
     environment:
       - DB_SERVER=authdb
@@ -21,7 +21,7 @@ services:
       - authdb
 
   post-service:
-    build: ./api/v1/post-service
+    build: ./post-service
     container_name: post-service
     environment:
       - DB_SERVER=postdb
@@ -34,19 +34,19 @@ services:
       - postdb
 
   email-service:
-    build: ./api/v1/email-service
+    build: ./email-service
     container_name: email-service
     ports:
       - 8083:8083
 
-  log-service:
-    build: ./api/v1/log-service
-    container_name: log-service
+  config-server:
+    build: ./config-server
+    container_name: config-server
     ports:
-      - 8084:8084
+      - 8888:8888
 
   service-registry:
-    build: ./api/v1/service-registry
+    build: ./service-registry
     container_name: service-registry
     ports:
       - 8761:8761
