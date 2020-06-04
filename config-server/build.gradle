@@ -2,6 +2,8 @@ plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'jacoco'
+    id 'pmd'
 }
 
 group = 'com.jakubowskiartur'
@@ -42,4 +44,27 @@ dependencyManagement {
 
 test {
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+pmd {
+    ignoreFailures = true
+    consoleOutput = true
+    toolVersion = "6.21.0"
+    rulePriority = 5
+    ruleSets = [
+            "category/java/errorprone.xml",
+            "category/java/bestpractices.xml",
+            "category/java/codestyle.xml",
+            "category/java/security.xml",
+            "category/java/design.xml",
+            "category/java/performance.xml"
+    ]
 }
