@@ -47,6 +47,7 @@ pipeline {
                     def job = currentBuild.fullDisplayName
                     def status = currentBuild.currentResult
                     emailext body: '''${SCRIPT, template="groovy-html.template"}''',
+                    emailext body: ''' ''',
                     mimeType: 'text/html',
                     subject: "[Jenkins] ${job} - ${status}",
                     to: "${mail}",
