@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
+
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -31,7 +33,7 @@ public class AuthHandler implements AuthService {
                 .username(request.getLogin())
                 .email(request.getEmail())
                 .password(encoder.encode(request.getPassword()))
-                .roles(null)
+                .roles(Collections.singletonList("ROLE_USER"))
                 .enabled(true)
                 .accountNonExpired(true)
                 .accountNonLocked(true)

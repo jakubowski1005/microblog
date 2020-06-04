@@ -10,8 +10,6 @@ import java.util.List;
 
 public class ReactiveUserDetails extends MongoUser implements UserDetails {
 
-    //TODO Change Role objects into strings
-
     public ReactiveUserDetails(MongoUser user) {
         super(user);
     }
@@ -22,7 +20,7 @@ public class ReactiveUserDetails extends MongoUser implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         super.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role));
         });
 
         return authorities;

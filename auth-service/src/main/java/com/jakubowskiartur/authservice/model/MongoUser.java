@@ -23,7 +23,7 @@ public class MongoUser {
     String username;
     String password;
     String email;
-    List<MongoRole> roles;
+    List<String> roles;
     boolean enabled;
     boolean accountNonExpired;
     boolean credentialsNonExpired;
