@@ -1,6 +1,7 @@
 package com.jakubowskiartur.authservice.controller;
 
-import com.jakubowskiartur.authservice.service.AuthService;
+import com.jakubowskiartur.authservice.model.MongoUser;
+import com.jakubowskiartur.authservice.service.AuthHandler;
 import com.jakubowskiartur.authservice.service.SignUpRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
@@ -17,10 +19,10 @@ import javax.validation.Valid;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthController {
 
-    AuthService service;
+    AuthHandler handler;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody SignUpRequest request) {
-        return service.register(request);
+    public Mono<ResponseEntity<MongoUser>> register(@Valid @RequestBody SignUpRequest request) {
+        return handler.register(request);
     }
 }
