@@ -8,10 +8,16 @@ pipeline {
     stages {
         stage('Test and build') {
             steps {
-                dir('api/api-gateway') {
+                dir('api-gateway') {
                     gradlew('clean', 'build')
                 }
-                dir('api/service-registry') {
+                dir('service-registry') {
+                    gradlew('clean', 'build')
+                }
+                dir('config-server') {
+                    gradlew('clean', 'build')
+                }
+                dir('email-service') {
                     gradlew('clean', 'build')
                 }
             }
@@ -30,10 +36,16 @@ pipeline {
                 }
                 stage('Static Code Analysis') {
                     steps {
-                        dir('api/api-gateway') {
+                        dir('api-gateway') {
                             gradlew('pmdMain', 'pmdTest')
                         }
-                        dir('api/service-registry') {
+                        dir('service-registry') {
+                            gradlew('pmdMain', 'pmdTest')
+                        }
+                        dir('config-server') {
+                            gradlew('pmdMain', 'pmdTest')
+                        }
+                        dir('email-service') {
                             gradlew('pmdMain', 'pmdTest')
                         }
                     }
