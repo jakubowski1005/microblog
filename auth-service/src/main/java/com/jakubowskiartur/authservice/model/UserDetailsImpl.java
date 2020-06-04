@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class UserDetailsImpl extends User implements UserDetails {
+public class UserDetailsImpl extends MongoUser implements UserDetails {
 
-    public UserDetailsImpl(User user) {
+    public UserDetailsImpl(MongoUser user) {
         super(user);
     }
 

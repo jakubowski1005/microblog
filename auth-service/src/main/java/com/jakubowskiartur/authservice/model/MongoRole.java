@@ -17,5 +17,5 @@ public class MongoRole {
 
     @Id
     String id;
-    String role;
+    String name;
 }
