@@ -1,8 +1,11 @@
 package com.jakubowskiartur.authservice.model;
 
+import com.jakubowskiartur.authservice.service.SignUpRequest;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Id;
 import java.util.List;

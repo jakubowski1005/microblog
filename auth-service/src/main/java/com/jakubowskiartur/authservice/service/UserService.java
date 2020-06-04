@@ -4,6 +4,7 @@ import com.jakubowskiartur.authservice.model.User;
 
 import java.util.List;
 
+@Deprecated
 public interface UserService {
 
     List<User> receiveUsers();

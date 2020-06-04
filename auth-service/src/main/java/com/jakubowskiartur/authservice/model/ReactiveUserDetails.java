@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Deprecated
-public class UserDetailsImpl extends User implements UserDetails {
+public class ReactiveUserDetails extends MongoUser implements UserDetails {
 
-    public UserDetailsImpl(User user) {
+    //TODO Change Role objects into strings
+
+    public ReactiveUserDetails(MongoUser user) {
         super(user);
     }
 
