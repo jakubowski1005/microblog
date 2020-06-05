@@ -5,14 +5,12 @@ import com.jakubowskiartur.authservice.repository.MongoUserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 
-@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthHandler implements ReactiveAuthService {
@@ -22,13 +20,14 @@ public class AuthHandler implements ReactiveAuthService {
 
     @Override
     public Mono<ResponseEntity<MongoUser>> register(SignUpRequest request) {
-        return repository.save(createFromRequest(request))
-                .map(created -> ResponseEntity.status(201).body(created));
+        return Mono.just(request)
+                .filter(this::isValid)
+                .map(this::buildFromRequest)
+                .map(created -> ResponseEntity.status(201).body(created))
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
-    private MongoUser createFromRequest(SignUpRequest request) {
-        validateCredentials(request.getLogin(), request.getEmail());
-
+    private MongoUser buildFromRequest(SignUpRequest request) {
         return  MongoUser.builder()
                 .username(request.getLogin())
                 .email(request.getEmail())
@@ -41,17 +40,10 @@ public class AuthHandler implements ReactiveAuthService {
                 .build();
     }
 
-    private void validateCredentials(String login, String email) {
-        if (repository.existsByUsername(login)) {
-            String message = String.format("User with a username \"%s\" already exists.", login);
-            log.debug(message);
-            throw new InvalidCredentialsException(message);
-        }
+    private boolean isValid(SignUpRequest request) {
+        String login = request.getLogin();
+        String email = request.getEmail();
+        return !(repository.existsByUsername(login) || repository.existsByEmail(email));
 
-        if (repository.existsByEmail(email)) {
-            String message = String.format("User with an e-mail \"%s\" already exists.", email);
-            log.debug(message);
-            throw new InvalidCredentialsException(message);
-        }
     }
 }

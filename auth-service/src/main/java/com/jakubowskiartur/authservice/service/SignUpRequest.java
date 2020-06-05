@@ -12,6 +12,8 @@ import javax.validation.constraints.*;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class SignUpRequest {
 
+    private static final String PASSWORD_PATTERN = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,40})";
+
     @NotBlank(message = "Username is mandatory.")
     @Size(min = 3, max = 100, message = "Username must be between 3 and 100 characters.")
     String login;
@@ -22,5 +24,8 @@ public class SignUpRequest {
 
     @NotBlank(message = "Password is mandatory.")
     @Size(min = 8, max = 40, message = "Password must contain at least 8 characters.")
+    @Pattern(regexp = PASSWORD_PATTERN,
+            message = "Password must contain at least one uppercase letter, one lowercase letter, one digit and 8 - 40 characters."
+    )
     String password;
 }

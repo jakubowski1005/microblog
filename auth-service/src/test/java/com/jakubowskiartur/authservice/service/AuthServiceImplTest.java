@@ -4,6 +4,7 @@ import com.jakubowskiartur.authservice.model.Role;
 import com.jakubowskiartur.authservice.model.User;
 import com.jakubowskiartur.authservice.repository.RoleRepository;
 import com.jakubowskiartur.authservice.repository.UserRepository;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@Ignore
+@Deprecated
 class AuthServiceImplTest {
 
     AuthService service;

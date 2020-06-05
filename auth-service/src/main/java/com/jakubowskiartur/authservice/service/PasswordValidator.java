@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
 
+@Deprecated
 @Service
 public class PasswordValidator {
 
