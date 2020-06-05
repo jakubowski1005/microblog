@@ -1,5 +1,5 @@
 # Bloget [![Build Status](http://3.128.27.62:8080/buildStatus/icon?job=microblog%2Fmaster&build=last)](http://3.128.27.62:8080/job/microblog/job/master/last/)
-Twitter-like microblog based on microserves architeture.
+Twitter-like microblog based on microservices architeture.
 
 ## Table of content
 
