@@ -31,6 +31,7 @@ And run:
 - Java 11
 - Spring Boot 2.2.6
 - Spring Cloud (Eureka, Zuul, oAuth2)
+- Gradle 7.0
 - MongoDB
 - Lombok
 - Docker
