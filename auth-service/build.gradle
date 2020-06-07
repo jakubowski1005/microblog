@@ -29,26 +29,27 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    //testImplementation 'cz.jirutka.spring:embedmongo-spring'
     testImplementation 'io.projectreactor:reactor-test'
 
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
     implementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.cloud:spring-cloud-config-client'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql'
+    //runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    implementation platform('org.testcontainers:testcontainers-bom:1.14.1')
-    testImplementation "org.testcontainers:junit-jupiter:1.14.1"
-    testImplementation('org.testcontainers:postgresql')
-    testCompile('com.h2database:h2')
+    //implementation platform('org.testcontainers:testcontainers-bom:1.14.1')
+    //testImplementation "org.testcontainers:junit-jupiter:1.14.1"
+    //testImplementation('org.testcontainers:postgresql')
+    //testCompile('com.h2database:h2')
     testCompile('org.assertj:assertj-core')
 
 }

@@ -7,10 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 
+@Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthHandler implements ReactiveAuthService {
@@ -43,7 +45,9 @@ public class AuthHandler implements ReactiveAuthService {
     private boolean isValid(SignUpRequest request) {
         String login = request.getLogin();
         String email = request.getEmail();
-        return !(repository.existsByUsername(login) || repository.existsByEmail(email));
+        //return !(repository.existsByUsername(login) || repository.existsByEmail(email));
+        return repository.findByUsernameAndEmail(login, email)
+                .equals(Mono.empty());
 
     }
 }

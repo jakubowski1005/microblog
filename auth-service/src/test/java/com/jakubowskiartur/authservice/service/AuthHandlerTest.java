@@ -41,10 +41,10 @@ public class AuthHandlerTest {
                 .credentialsNonExpired(true)
                 .build();
 
-        when(repository.existsByEmail(anyString()))
-                .thenReturn(false);
-        when(repository.existsByUsername(anyString()))
-                .thenReturn(false);
+        when(repository.findByUsernameAndEmail(anyString(), anyString()))
+                .thenReturn(Mono.empty());
+//        when(repository.existsByUsername(anyString()))
+//                .thenReturn(false);
         when(repository.save(any(MongoUser.class)))
                 .thenReturn(Mono.just(user));
         when(encoder.encode(anyString()))
@@ -63,10 +63,12 @@ public class AuthHandlerTest {
     public void  shouldReturnErr_whenBadCredentials() {
         //given
         var request = new SignUpRequest("username", "user@gmail.com", "Pass1234");
-        when(repository.existsByEmail(anyString()))
-                .thenReturn(true);
-        when(repository.existsByUsername(anyString()))
-                .thenReturn(true);
+        when(repository.findByUsernameAndEmail(anyString(), anyString()))
+                .thenReturn(Mono.just(MongoUser.builder().username("username").build()));
+//        when(repository.existsByEmail(anyString()))
+//                .thenReturn(true);
+//        when(repository.existsByUsername(anyString()))
+//                .thenReturn(true);
 
         //when
         var response = handler.register(request);

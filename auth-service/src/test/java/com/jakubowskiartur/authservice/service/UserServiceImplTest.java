@@ -3,6 +3,7 @@ package com.jakubowskiartur.authservice.service;
 import com.jakubowskiartur.authservice.model.User;
 import com.jakubowskiartur.authservice.repository.RoleRepository;
 import com.jakubowskiartur.authservice.repository.UserRepository;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@Deprecated
+@Ignore
 class UserServiceImplTest {
 
     UserService service;

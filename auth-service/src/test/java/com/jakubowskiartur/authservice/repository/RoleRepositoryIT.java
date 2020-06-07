@@ -1,6 +1,7 @@
 package com.jakubowskiartur.authservice.repository;
 
 import com.jakubowskiartur.authservice.model.Role;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@Ignore
+@Deprecated
 @SpringBootTest
 class RoleRepositoryIT {
 

@@ -8,12 +8,16 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserHandler implements ReactiveUserService {
+
+    private static final String PASSWORD_PATTERN = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,40})";
 
     MongoUserRepository repository;
     PasswordEncoder encoder;
@@ -37,6 +41,7 @@ public class UserHandler implements ReactiveUserService {
     public Mono<ResponseEntity<MongoUser>> changePassword(String newPassword) {
         return repository.findByUsername(getLoggedInUser())
                 .flatMap(user -> {
+                    if (!newPassword.matches(PASSWORD_PATTERN)) return Mono.empty();
                     user.setPassword(encoder.encode(newPassword));
                     return repository.save(user);
                 })

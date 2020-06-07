@@ -7,13 +7,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 
 @RestController
+@Validated
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserController {
@@ -40,7 +42,7 @@ public class UserController {
 
     @PutMapping("/users/me")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public Mono<ResponseEntity<MongoUser>> changePassword(@RequestBody @Valid String password) {
+    public Mono<ResponseEntity<MongoUser>> changePassword(@RequestBody String password) {
         return handler.changePassword(password);
     }
 
