@@ -1,4 +1,4 @@
-package com.jakubowskiartur.authservice.service;
+package com.jakubowskiartur.authservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

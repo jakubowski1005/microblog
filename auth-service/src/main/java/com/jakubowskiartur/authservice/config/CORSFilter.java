@@ -1,4 +1,4 @@
-package com.jakubowskiartur.authservice.service;
+package com.jakubowskiartur.authservice.config;
 
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;

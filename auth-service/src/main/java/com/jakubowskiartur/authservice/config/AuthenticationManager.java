@@ -1,5 +1,6 @@
-package com.jakubowskiartur.authservice.service;
+package com.jakubowskiartur.authservice.config;
 
+import com.jakubowskiartur.authservice.service.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

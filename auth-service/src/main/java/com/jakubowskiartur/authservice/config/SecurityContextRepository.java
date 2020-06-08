@@ -1,4 +1,4 @@
-package com.jakubowskiartur.authservice.service;
+package com.jakubowskiartur.authservice.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

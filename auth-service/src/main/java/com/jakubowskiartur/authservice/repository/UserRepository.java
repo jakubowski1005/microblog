@@ -1,16 +1,7 @@
-//package com.jakubowskiartur.authservice.repository;
-//
-//import com.jakubowskiartur.authservice.model.User;
-//import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.stereotype.Repository;
-//
-//import java.util.Optional;
-//
-//@Repository
-//@Deprecated
-//public interface UserRepository extends JpaRepository<User, Long> {
-//
-//    Optional<User> findByUsername(String username);
-//    boolean existsByUsername(String username);
-//    boolean existsByEmail(String email);
-//}
+package com.jakubowskiartur.authservice.repository;
+
+import com.jakubowskiartur.authservice.model.User;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+
+public interface UserRepository extends ReactiveMongoRepository<String, User> {
+}

@@ -1,8 +1,8 @@
-spring:
-  jpa:
-    generate-ddl: false
-    show-sql: false
-
-eureka:
-  client:
-    enabled: false
+#spring:
+#  jpa:
+#    generate-ddl: false
+#    show-sql: false
+#
+#eureka:
+#  client:
+#    enabled: false

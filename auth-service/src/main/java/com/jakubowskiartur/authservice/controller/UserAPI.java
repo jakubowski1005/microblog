@@ -1,10 +1,9 @@
 package com.jakubowskiartur.authservice.controller;
 
-import com.jakubowskiartur.authservice.service.AuthRequest;
-import com.jakubowskiartur.authservice.service.AuthResponse;
+import com.jakubowskiartur.authservice.model.AuthRequest;
+import com.jakubowskiartur.authservice.model.AuthResponse;
 import com.jakubowskiartur.authservice.service.JwtUtil;
 import com.jakubowskiartur.authservice.service.TestUserHandler;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
