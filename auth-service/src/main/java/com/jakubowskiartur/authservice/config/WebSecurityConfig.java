@@ -1,13 +1,14 @@
 package com.jakubowskiartur.authservice.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import reactor.core.publisher.Mono;
@@ -17,6 +18,8 @@ import static org.springframework.http.HttpStatus.*;
 
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
+@Configuration
+@Slf4j
 public class WebSecurityConfig {
 
     private ReactiveAuthenticationManager manager;
@@ -28,7 +31,13 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
+        log.warn("IM IN THE FILTER CHAIN METHOD");
         return http.exceptionHandling()
                 .authenticationEntryPoint((swe, e) ->
                         Mono.fromRunnable(() -> swe.getResponse().setStatusCode(UNAUTHORIZED)))
@@ -42,7 +51,7 @@ public class WebSecurityConfig {
                 .securityContextRepository(contextRepository)
                 .authorizeExchange()
                 .pathMatchers(OPTIONS).permitAll()
-                .pathMatchers("/login").permitAll()
+                .pathMatchers("/login", "/users", "/register").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }

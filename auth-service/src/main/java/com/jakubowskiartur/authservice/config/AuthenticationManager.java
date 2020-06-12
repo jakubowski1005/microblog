@@ -2,6 +2,7 @@ package com.jakubowskiartur.authservice.config;
 
 import com.jakubowskiartur.authservice.service.JwtUtil;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class AuthenticationManager implements ReactiveAuthenticationManager {
 
     private JwtUtil jwtUtil;
@@ -27,6 +29,7 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
     @Override
     @SuppressWarnings("unchecked")
     public Mono<Authentication> authenticate(Authentication authentication) {
+        log.warn("IM IN THE AUTHEWNTICATE METHOD [AUTHENTICATIONMAGAGER]");
         String token = authentication.getCredentials().toString();
         if (!jwtUtil.validateToken(token)) {
             return Mono.empty();
