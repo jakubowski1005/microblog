@@ -1,8 +1,7 @@
 package com.jakubowskiartur.authservice.config;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -18,17 +17,11 @@ import static org.springframework.http.HttpStatus.*;
 
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-@Configuration
-@Slf4j
+@AllArgsConstructor
 public class WebSecurityConfig {
 
     private ReactiveAuthenticationManager manager;
     private ServerSecurityContextRepository contextRepository;
-
-    public WebSecurityConfig(ReactiveAuthenticationManager manager, ServerSecurityContextRepository contextRepository) {
-        this.manager = manager;
-        this.contextRepository = contextRepository;
-    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -37,7 +30,6 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
-        log.warn("IM IN THE FILTER CHAIN METHOD");
         return http.exceptionHandling()
                 .authenticationEntryPoint((swe, e) ->
                         Mono.fromRunnable(() -> swe.getResponse().setStatusCode(UNAUTHORIZED)))
@@ -51,7 +43,7 @@ public class WebSecurityConfig {
                 .securityContextRepository(contextRepository)
                 .authorizeExchange()
                 .pathMatchers(OPTIONS).permitAll()
-                .pathMatchers("/login", "/users", "/register").permitAll()
+                .pathMatchers("/login", "/register").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }

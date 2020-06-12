@@ -1,5 +1,6 @@
 package com.jakubowskiartur.authservice.config;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,18 +20,13 @@ import static java.util.Objects.nonNull;
 import static org.springframework.http.HttpHeaders.*;
 
 @Component
-@Slf4j
+@AllArgsConstructor
 public class SecurityContextRepository implements ServerSecurityContextRepository {
 
     private ReactiveAuthenticationManager authenticationManager;
 
-    public SecurityContextRepository(ReactiveAuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
-
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
-        log.warn("IM IN LOAD METHOD SWE");
         ServerHttpRequest request = exchange.getRequest();
         String header = request.getHeaders().getFirst(AUTHORIZATION);
 
@@ -45,7 +41,6 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 
     @Override
     public Mono<Void> save(ServerWebExchange exchange, SecurityContext context) {
-        log.warn("IM IN SAVE METHOD SWE");
-        throw new UnsupportedOperationException("Not supported yet. " + this.getClass() + ".save()");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

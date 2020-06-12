@@ -5,6 +5,7 @@ import com.jakubowskiartur.authservice.payload.AuthRequest;
 import com.jakubowskiartur.authservice.payload.RegisterRequest;
 import com.jakubowskiartur.authservice.repository.UserRepository;
 import com.jakubowskiartur.authservice.service.AuthHandler;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +18,10 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 
 @RestController
+@AllArgsConstructor
 public class UserController {
 
     private AuthHandler handler;
-
-    public UserController(AuthHandler handler) {
-        this.handler = handler;
-    }
 
     @PostMapping("/login")
     public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest request) {

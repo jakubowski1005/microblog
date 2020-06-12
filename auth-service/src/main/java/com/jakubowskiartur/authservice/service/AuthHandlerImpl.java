@@ -5,6 +5,7 @@ import com.jakubowskiartur.authservice.payload.AuthRequest;
 import com.jakubowskiartur.authservice.payload.AuthResponse;
 import com.jakubowskiartur.authservice.payload.RegisterRequest;
 import com.jakubowskiartur.authservice.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,17 +17,12 @@ import static com.jakubowskiartur.authservice.model.Role.*;
 import static org.springframework.http.HttpStatus.*;
 
 @Service
+@AllArgsConstructor
 public class AuthHandlerImpl implements AuthHandler {
 
-    UserRepository repository;
-    PasswordEncoder encoder;
-    JwtUtil jwtUtil;
-
-    public AuthHandlerImpl(UserRepository repository, PasswordEncoder encoder, JwtUtil jwtUtil) {
-        this.repository = repository;
-        this.encoder = encoder;
-        this.jwtUtil = jwtUtil;
-    }
+    private UserRepository repository;
+    private PasswordEncoder encoder;
+    private JwtUtil jwtUtil;
 
     @Override
     public Mono<ResponseEntity<?>> login(AuthRequest request) {
