@@ -32,12 +32,12 @@ public class UserController {
 
     @GetMapping("/users/me")
     public Mono<String> receivePrincipal(Mono<Principal> principal) {
-        return principal.map(Principal::getName);
+        return handler.receivePrincipal(principal);
     }
 
     @PutMapping("/users/me")
-    public Mono<ResponseEntity<?>> updatePassword(@Valid @RequestBody String newPassword) {
-        return handler.updatePassword(newPassword);
+    public Mono<ResponseEntity<?>> updatePassword(@Valid @RequestBody String newPassword, Mono<Principal> principal) {
+        return handler.updatePassword(newPassword, principal);
     }
 
     @PutMapping("/users/{id}")

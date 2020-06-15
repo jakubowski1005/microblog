@@ -11,7 +11,7 @@ public interface UserHandler {
     Mono<User> receiveUserById(String id);
     Mono<User> receiveUserByUsername(String username);
     Mono<String> receivePrincipal(Mono<Principal> principal);
-    Mono<ResponseEntity<?>> updatePassword(String newPassword);
+    Mono<ResponseEntity<?>> updatePassword(String newPassword, Mono<Principal> principal);
     Mono<ResponseEntity<User>> addRole(String id, Role role);
     Mono<ResponseEntity<Void>> deleteUserById(String id);
 }
