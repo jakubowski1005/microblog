@@ -1,35 +1,54 @@
 package com.jakubowskiartur.authservice.controller;
 
+import com.jakubowskiartur.authservice.model.Role;
 import com.jakubowskiartur.authservice.model.User;
-import com.jakubowskiartur.authservice.payload.AuthRequest;
-import com.jakubowskiartur.authservice.payload.RegisterRequest;
-import com.jakubowskiartur.authservice.repository.UserRepository;
-import com.jakubowskiartur.authservice.service.AuthHandler;
+import com.jakubowskiartur.authservice.service.UserHandler;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
+import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @AllArgsConstructor
 public class UserController {
 
-    private AuthHandler handler;
+    private UserHandler handler;
 
-    @PostMapping("/login")
-    public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest request) {
-        return handler.login(request);
+    @GetMapping("/users/id/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Mono<User> receiveUserById(@PathVariable String id) {
+        return handler.receiveUserById(id);
     }
 
-    @PostMapping("/register")
-    public Mono<ResponseEntity<User>> register(@RequestBody RegisterRequest request) {
-        return handler.register(request);
+    @GetMapping("/users/{username}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Mono<User> receiveUserByUsername(@PathVariable String username) {
+        return handler.receiveUserByUsername(username);
+    }
+
+    @GetMapping("/users/me")
+    public Mono<String> receivePrincipal(Mono<Principal> principal) {
+        return principal.map(Principal::getName);
+    }
+
+    @PutMapping("/users/me")
+    public Mono<ResponseEntity<?>> updatePassword(@Valid @RequestBody String newPassword) {
+        return handler.updatePassword(newPassword);
+    }
+
+    @PutMapping("/users/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Mono<ResponseEntity<User>> addRole(@PathVariable String id, Role role) {
+        return handler.addRole(id, role);
+    }
+
+    @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Mono<ResponseEntity<Void>> deleteUserById(@PathVariable String id) {
+        return handler.deleteUserById(id);
     }
 }

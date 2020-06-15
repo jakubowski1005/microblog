@@ -1,9 +1,10 @@
-package com.jakubowskiartur.authservice.service;
+package com.jakubowskiartur.authservice.utils;
 
 import com.jakubowskiartur.authservice.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,8 +16,11 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private String secret = "secret33secret33secret33secret33";
-    private String expirationTime = "3600";
+    @Value("${secret-key}")
+    private String secret;
+
+    @Value("${expiration-time}")
+    private String expirationTime;
 
     private Key key;
 

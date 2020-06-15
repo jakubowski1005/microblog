@@ -5,41 +5,55 @@ import com.jakubowskiartur.authservice.payload.AuthRequest;
 import com.jakubowskiartur.authservice.payload.AuthResponse;
 import com.jakubowskiartur.authservice.payload.RegisterRequest;
 import com.jakubowskiartur.authservice.repository.UserRepository;
+import com.jakubowskiartur.authservice.utils.JwtUtil;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.Set;
 
-import static com.jakubowskiartur.authservice.model.Role.*;
-import static org.springframework.http.HttpStatus.*;
+import static com.jakubowskiartur.authservice.model.Role.ROLE_USER;
+import static org.springframework.web.reactive.function.server.ServerResponse.*;
 
-@Service
+@Component
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthHandlerImpl implements AuthHandler {
 
-    private UserRepository repository;
-    private PasswordEncoder encoder;
-    private JwtUtil jwtUtil;
+    UserRepository repository;
+    PasswordEncoder encoder;
+    JwtUtil jwt;
 
     @Override
-    public Mono<ResponseEntity<?>> login(AuthRequest request) {
-        return repository.findByUsername(request.getUsername())
-                .map(userDetails -> {
-                    if (encoder.matches(request.getPassword(), userDetails.getPassword())) {
-                        return ResponseEntity.ok(new AuthResponse(jwtUtil.generateToken(userDetails)));
-                    }
-                    return ResponseEntity.status(UNAUTHORIZED).build();
-                    })
-                .defaultIfEmpty(ResponseEntity.status(UNAUTHORIZED).build());
+    public Mono<ServerResponse> login(ServerRequest request) {
+        return request.bodyToMono(AuthRequest.class)
+                .flatMap(req -> repository.findByUsername(req.getUsername())
+                        .flatMap(found -> {
+                            if (encoder.matches(req.getPassword(), found.getPassword())) {
+                                return Mono.just(new AuthResponse(jwt.generateToken(found)));
+                            }
+                            return Mono.empty();
+                        }))
+                .flatMap(res -> ok().body(Mono.just(res), AuthResponse.class))
+                .switchIfEmpty(status(401).build());
     }
 
     @Override
-    public Mono<ResponseEntity<User>> register(RegisterRequest request) {
+    public Mono<ServerResponse> register(ServerRequest request) {
+        return request.bodyToMono(RegisterRequest.class)
+                .map(this::buildFromRequest)
+                .flatMap(repository::save)
+                .flatMap(res -> status(201).build())
+                .doOnError(res -> status(400).build());
+    }
 
-        var created = User.builder()
+    private User buildFromRequest(RegisterRequest request) {
+        return User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(encoder.encode(request.getPassword()))
@@ -49,9 +63,5 @@ public class AuthHandlerImpl implements AuthHandler {
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
                 .build();
-
-        return repository.save(created)
-                .map(ResponseEntity::ok)
-                .onErrorReturn(ResponseEntity.badRequest().build());
     }
 }

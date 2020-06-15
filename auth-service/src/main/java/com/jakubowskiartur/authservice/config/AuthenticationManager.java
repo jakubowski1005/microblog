@@ -1,6 +1,6 @@
 package com.jakubowskiartur.authservice.config;
 
-import com.jakubowskiartur.authservice.service.JwtUtil;
+import com.jakubowskiartur.authservice.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -29,7 +30,10 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
 
         Claims claims = jwtUtil.getAllClaimsFromToken(token);
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) claims.get("role", List.class)
-                .stream().map(role -> new SimpleGrantedAuthority((String) role));
+                .stream()
+                .map(role -> new SimpleGrantedAuthority((String) role))
+                .collect(Collectors.toList());
+
 
         return Mono.just(new UsernamePasswordAuthenticationToken(claims.getSubject(), null, authorities));
 

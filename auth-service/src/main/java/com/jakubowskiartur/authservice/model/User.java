@@ -1,5 +1,6 @@
 package com.jakubowskiartur.authservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
@@ -18,18 +19,25 @@ public class User {
 
     @Id
     String id;
+
     @Indexed(unique = true)
     String username;
+
+    @JsonIgnore
     String password;
+
     @Indexed(unique = true)
     String email;
+
+    Set<Role> roles;
+
     boolean enabled;
     boolean accountNonExpired;
     boolean credentialsNonExpired;
     boolean accountNonLocked;
-    Set<Role> roles;
 
     public User(User user) {
+        this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
