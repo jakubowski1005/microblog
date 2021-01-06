@@ -6,7 +6,7 @@ spring:
     name: auth-service
   data:
     mongodb:
-      uri: mongodb://localhost:27017/authtest
+      uri: mongodb://${MONGPO_USER}:${MONGO_PASS}@${DB_SERVER}:${MONGO_PORT}/${MONGO_DB}
 
 security:
   oauth2:
