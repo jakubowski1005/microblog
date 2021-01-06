@@ -1,62 +1,54 @@
 package com.jakubowskiartur.authservice.controller;
 
+import com.jakubowskiartur.authservice.model.Role;
 import com.jakubowskiartur.authservice.model.User;
-import com.jakubowskiartur.authservice.service.UserServiceImpl;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import com.jakubowskiartur.authservice.service.UserHandler;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.security.Principal;
 
 @RestController
-@RequiredArgsConstructor
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class UserController {
 
-    UserServiceImpl service;
+    private UserHandler handler;
 
-    @GetMapping("/users")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<User> receiveUsers() {
-        return service.receiveUsers();
+    @GetMapping("/users/id/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Mono<User> receiveUserById(@PathVariable String id) {
+        return handler.receiveUserById(id);
     }
 
-    @GetMapping("/users/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User receiveUserById(@PathVariable Long id) {
-        return service.receiveUserById(id);
+    @GetMapping("/users/{username}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Mono<User> receiveUserByUsername(@PathVariable String username) {
+        return handler.receiveUserByUsername(username);
     }
 
-    @GetMapping("/users/username/{username}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User receiveByUsername(@PathVariable String username) {
-        return service.receiveByUsername(username);
+    @GetMapping("/users/me")
+    public Mono<String> receivePrincipal(Mono<Principal> principal) {
+        return handler.receivePrincipal(principal);
     }
 
     @PutMapping("/users/me")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public void changePassword(@RequestBody @Valid String password) {
-        service.changePassword(password);
+    public Mono<ResponseEntity<?>> updatePassword(@Valid @RequestBody String newPassword, Mono<Principal> principal) {
+        return handler.updatePassword(newPassword, principal);
     }
 
     @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void addRole(@PathVariable Long id, @RequestBody String role) {
-        service.addRole(id, role);
-    }
-
-    @DeleteMapping("/users/me")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public void deletePrincipalAccount() {
-        service.deletePrincipalAccount();
+    public Mono<ResponseEntity<User>> addRole(@PathVariable String id, Role role) {
+        return handler.addRole(id, role);
     }
 
     @DeleteMapping("/users/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteUserById(@PathVariable Long id) {
-        service.deleteUserById(id);
+    public Mono<ResponseEntity<Void>> deleteUserById(@PathVariable String id) {
+        return handler.deleteUserById(id);
     }
 }

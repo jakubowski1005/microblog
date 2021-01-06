@@ -1,4 +1,4 @@
-FROM openjdk:14
+FROM openjdk:11
 
 ADD build/libs/auth-service-0.0.1-SNAPSHOT.jar auth-service-0.0.1-SNAPSHOT.jar
 

@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/authtest
+
+secret-key: p4m3NZ12ZWE6S5652vLEig7rOYqLnf7c
+expiration-time: 7200
+
+
+#security:
+#  oauth2:
+#    resource:
+#      token-info-uri: http://auth-service:8081/oauth/check_token
+#    client:
+#      client-id: mobile
+#      client-secret: pin
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/

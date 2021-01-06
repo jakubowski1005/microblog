@@ -1,4 +1,4 @@
-FROM openjdk:14
+FROM openjdk:11
 
 ADD build/libs/email-service-0.0.1-SNAPSHOT.jar email-service-0.0.1-SNAPSHOT.jar
 

@@ -1,52 +1,43 @@
 package com.jakubowskiartur.authservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
-@Entity
-@Table(name = "users")
+@Document
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User implements Serializable {
+public class User {
 
     @Id
-    @GeneratedValue
-    Long id;
+    String id;
 
+    @Indexed(unique = true)
     String username;
 
+    @JsonIgnore
     String password;
 
+    @Indexed(unique = true)
     String email;
 
+    Set<Role> roles;
+
     boolean enabled;
-
-    @Column(name = "account_non_expired")
     boolean accountNonExpired;
-
-    @Column(name = "credentials_non_expired")
     boolean credentialsNonExpired;
-
-    @Column(name = "account_non_locked")
     boolean accountNonLocked;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "role_user", joinColumns = {
-            @JoinColumn(name = "user_id", referencedColumnName = "id")
-    }, inverseJoinColumns = {
-            @JoinColumn(name = "role_id", referencedColumnName = "id")
-    })
-    List<Role> roles;
-
     public User(User user) {
-        //this.id = user.getId();
+        this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
