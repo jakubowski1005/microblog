@@ -5,9 +5,12 @@ import com.jakubowskiartur.postservice.repository.PostRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.reactivestreams.Publisher;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.util.*;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -17,22 +20,18 @@ public class TagServiceImpl implements TagService {
     PostRepository repository;
 
     @Override
-    public List<String> receiveListOfTags() {
-        Set<String> tags = new HashSet<>();
-        repository.findAll().forEach(
-                post -> tags.addAll(post.getTags())
-        );
-        return new ArrayList<>(tags);
+    public Flux<String> receiveListOfTags() {
+        return repository.findAll()
+                .map(Post::getTags)
+                .flatMap(Flux::fromIterable)
+                .distinct()
+                .log();
     }
 
     @Override
-    public List<Post> receivePostByTag(String tag) {
-        List<Post> posts = new ArrayList<>();
-        repository.findAll().forEach(post -> {
-            if (post.getTags().contains(tag)) {
-                posts.add(post);
-            }
-        });
-        return posts;
+    public Flux<Post> receivePostByTag(String tag) {
+        return repository.findAll()
+                .filter(post -> post.getTags().contains(tag))
+                .log();
     }
 }

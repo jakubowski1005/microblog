@@ -6,13 +6,14 @@ import com.jakubowskiartur.postservice.services.PostService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,38 +25,35 @@ public class PostController {
     PostService service;
 
     @GetMapping("/posts")
-    public List<Post> receivePosts() {
+    public Flux<Post> receivePosts() {
         return service.receivePosts();
     }
 
     @GetMapping("/posts/id/{id}")
-    public Post receivePostById(@PathVariable Long id) {
+    public Mono<Post> receivePostById(@PathVariable String id) {
         return service.receivePostById(id);
     }
 
     @GetMapping("/posts/{username}")
-    public List<Post> receivePostsByUser(@PathVariable String username) {
+    public Flux<Post> receivePostsByUser(@PathVariable String username) {
         return service.receivePostsByUser(username);
     }
 
     @PostMapping("/posts")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> addPost(@RequestBody @Valid PostDto post) {
-        Post created = service.addPost(post);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    public Mono<ResponseEntity<Post>> addPost(@RequestBody @Valid PostDto post, Mono<Principal> principal) {
+        return service.addPost(post, principal);
     }
 
     @PutMapping("/posts/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody @Valid PostDto updated) {
-        Post updatedPost = service.updatePost(id, updated);
-        return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+    public Mono<ResponseEntity<Post>> updatePost(@PathVariable String id, @RequestBody @Valid PostDto updated, Mono<Principal> principal) {
+        return service.updatePost(id, updated, principal);
     }
 
     @DeleteMapping("/posts/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> deletePost(@PathVariable Long id) {
-        service.deletePost(id);
-        return ResponseEntity.noContent().build();
+    public Mono<ResponseEntity<Void>> deletePost(@PathVariable String id, Mono<Principal> principal) {
+        return service.deletePost(id, principal);
     }
 }

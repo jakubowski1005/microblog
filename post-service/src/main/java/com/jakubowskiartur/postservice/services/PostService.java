@@ -2,15 +2,19 @@ package com.jakubowskiartur.postservice.services;
 
 import com.jakubowskiartur.postservice.model.Post;
 import com.jakubowskiartur.postservice.model.PostDto;
+import org.springframework.http.ResponseEntity;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface PostService {
 
-    List<Post> receivePosts();
-    Post receivePostById(Long id);
-    List<Post> receivePostsByUser(String username);
-    Post addPost(PostDto post);
-    Post updatePost(Long id, PostDto updated);
-    void deletePost(Long id);
+    Flux<Post> receivePosts();
+    Mono<Post> receivePostById(String id);
+    Flux<Post> receivePostsByUser(String username);
+    Mono<ResponseEntity<Post>> addPost(PostDto post, Mono<Principal> principal);
+    Mono<ResponseEntity<Post>> updatePost(String id, PostDto updated, Mono<Principal> principal);
+    Mono<ResponseEntity<Void>> deletePost(String id, Mono<Principal> principal);
 }

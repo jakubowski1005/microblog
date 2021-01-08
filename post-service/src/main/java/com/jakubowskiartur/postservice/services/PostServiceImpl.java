@@ -8,10 +8,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -27,71 +31,63 @@ public class PostServiceImpl implements PostService {
     TagFinder tagFinder;
 
     @Override
-    public List<Post> receivePosts() {
+    public Flux<Post> receivePosts() {
         return repository.findAll();
     }
 
     @Override
-    public Post receivePostById(Long id) {
-        return repository.findById(id).orElse(null);
+    public Mono<Post> receivePostById(String id) {
+        return repository.findById(id);
     }
 
     @Override
-    public List<Post> receivePostsByUser(String username) {
+    public Flux<Post> receivePostsByUser(String username) {
         return repository.getAllByOwner(username);
     }
 
     @Override
-    public Post addPost(PostDto post) {
-        Post postObj = Post.builder()
-                .content(post.getContent())
-                .tags(tagFinder.find(post.getContent()))
-                .owner(getLoggedInUser())
-                .build();
-
-        log.info("User {} created new post. [{}]", getLoggedInUser(), new Date());
-        return repository.save(postObj);
+    public Mono<ResponseEntity<Post>> addPost(PostDto post, Mono<Principal> principal) {
+        return receivePrincipal(principal)
+                .flatMap(owner -> repository.save(
+                        Post.builder()
+                                .content(post.getContent())
+                                .tags(tagFinder.find(post.getContent()))
+                                .owner(owner)
+                                .build()))
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build())
+                .log();
     }
 
     @Override
-    public Post updatePost(Long id, PostDto updated) {
-        checkOwnership(id);
-        repository.findById(id).map(post -> {
-            post.setContent(updated.getContent());
-            post.setTags(tagFinder.find(updated.getContent()));
-            return repository.save(post);
-        });
-
-        log.info("User {} updated post {}. [{}]", getLoggedInUser(), id, new Date());
-        return repository.findById(id).orElse(null);
+    public Mono<ResponseEntity<Post>> updatePost(String id, PostDto updated, Mono<Principal> principal) {
+        return receivePrincipal(principal)
+                .flatMapMany(repository::getAllByOwner)
+                .filter(post -> post.getId().equals(id))
+                .next()
+                .flatMap(post -> {
+                    post.setContent(updated.getContent());
+                    post.setTags(tagFinder.find(updated.getContent()));
+                    return repository.save(post);
+                })
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build())
+                .log();
     }
 
     @Override
-    public void deletePost(Long id) {
-        checkOwnership(id);
-        log.info("User {} deleted post {}. [{}]", getLoggedInUser(), id, new Date());
-        repository.deleteById(id);
+    public Mono<ResponseEntity<Void>> deletePost(String id, Mono<Principal> principal) {
+        return receivePrincipal(principal)
+                .flatMapMany(repository::getAllByOwner)
+                .filter(post -> post.getId().equals(id))
+                .next()
+                .flatMap(repository::delete)
+                .then(Mono.just(ResponseEntity.ok().<Void>build()))
+                .defaultIfEmpty(ResponseEntity.notFound().build())
+                .log();
     }
 
-    private void checkOwnership(Long id) {
-        if (!isOwner(id)) {
-            throw new ResourceAccessException("You are not allowed to manage the resources.");
-        }
-    }
-
-    private boolean isOwner(Long id) {
-        var post = repository.findById(id);
-        if (post.isEmpty()) return false;
-        return post
-                .get()
-                .getOwner()
-                .equals(getLoggedInUser());
-    }
-
-    private String getLoggedInUser() {
-        return (String) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+    private Mono<String> receivePrincipal(Mono<Principal> principal) {
+        return principal.map(Principal::getName);
     }
 }

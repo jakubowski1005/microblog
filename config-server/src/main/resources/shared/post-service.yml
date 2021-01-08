@@ -6,7 +6,11 @@ spring:
     name: post-service
   data:
     mongodb:
-      uri: mongodb://${MONGPO_USER}:${MONGO_PASS}@${DB_SERVER}:${MONGO_PORT}/${MONGO_DB}
+      host: ${DB_SERVER}
+      port: ${MONGO_PORT}
+      dbname: ${MONGO_DB}
+      username: ${MONGO_USER}
+      password: ${MONGO_PASS}
 
 security:
   oauth2:
