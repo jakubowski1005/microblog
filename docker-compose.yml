@@ -93,8 +93,6 @@ services:
   config-server:
     build: ./config-server
     container_name: config-server
-    networks:
-      - prodnetwork
     ports:
       - 8888:8888
     expose:
