@@ -6,11 +6,11 @@ spring:
     name: auth-service
   data:
     mongodb:
-      host: ${DB_SERVER_AUTH}
-      port: ${MONGO_PORT_AUTH}
-      dbname: ${MONGO_DB_AUTH}
-      username: ${MONGO_USER}
-      password: ${MONGO_PASS}
+      host: authdb
+      port: 27017
+      dbname: authdb
+      username: root
+      password: password
 
 security:
   oauth2:
@@ -25,6 +25,7 @@ eureka:
     prefer-ip-address: true
   client:
     register-with-eureka: true
+    fetch-registry: true
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://service-registry:8761}
 

@@ -6,11 +6,11 @@ spring:
     name: post-service
   data:
     mongodb:
-      host: ${DB_SERVER_POST}
-      port: ${MONGO_PORT_POST}
-      dbname: ${MONGO_DB_POST}
-      username: ${MONGO_USER}
-      password: ${MONGO_PASS}
+      host: postdb
+      port: 27017
+      dbname: postdb
+      username: root
+      password: password
 
 security:
   oauth2:
@@ -23,7 +23,8 @@ security:
 eureka:
   client:
     register-with-eureka: true
+    fetch-registry: true
     serviceUrl:
-      defaultZone: ${EUREKA_URI}
+      defaultZone: ${EUREKA_URI:http://service-registry:8761}
   instance:
     prefer-ip-address: true

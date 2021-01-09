@@ -17,6 +17,6 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI}
+      defaultZone: ${EUREKA_URI:http://service-registry:8761}
   instance:
     prefer-ip-address: true
