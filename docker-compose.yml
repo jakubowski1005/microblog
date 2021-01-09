@@ -6,7 +6,7 @@ services:
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway
-      networks:
+    networks:
         - prodnetwork
     ports:
       - 8080:8080
