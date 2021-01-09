@@ -25,7 +25,7 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI}
+      defaultZone: ${EUREKA_URI:http://service-registry:8761}
 
 secret-key: p4m3NZ12ZWE6S5652vLEig7rOYqLnf7c
 expiration-time: 7200

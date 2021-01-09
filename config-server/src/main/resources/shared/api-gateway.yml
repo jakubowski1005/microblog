@@ -10,19 +10,28 @@ zuul:
     service-registry:
       path: /eureka/**
       serviceId: service-registry
+      url: http://service-registry:8761
+      stripPrefix: false
+      sensitiveHeaders:
     auth-service:
       path: /auth/**
-      serviceId: auth-service
+      url: http://auth-service:8081
+      stripPrefix: false
+      sensitiveHeaders:
     email-service:
       path: /emails/**
-      serviceId: email-service
+      url: http://email-service:8082
+      stripPrefix: false
+      sensitiveHeaders:
     post-service:
       path: /posts/**
-      serviceId: post-service
+      url: http://post-service:8083
+      stripPrefix: false
+      sensitiveHeaders:
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI}
+      defaultZone: ${EUREKA_URI:http://service-registry:8761}
   instance:
     prefer-ip-address: true
