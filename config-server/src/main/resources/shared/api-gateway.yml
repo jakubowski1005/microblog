@@ -31,6 +31,7 @@ zuul:
 
 eureka:
   client:
+    register-with-eureka: true
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://service-registry:8761}
   instance:

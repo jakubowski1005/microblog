@@ -9,5 +9,6 @@ eureka:
   instance:
     prefer-ip-address: true
   client:
+    egister-with-eureka: true
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://service-registry:8761}
