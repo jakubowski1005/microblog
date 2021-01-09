@@ -1,13 +1,10 @@
 version: "3"
-networks:
-  prodnetwork:
+
 services:
 
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway
-    networks:
-        - prodnetwork
     ports:
       - 8080:8080
     expose:
@@ -18,12 +15,13 @@ services:
     environment:
       CONFIG_URI: http://config-server:8888
       EUREKA_URI: http://eureka-server:8761/eureka/
+    links:
+      - config-server:config-server
+      - service-registry:service-registry
 
   auth-service:
     build: ./auth-service
     container_name: auth-service
-    networks:
-      - prodnetwork
     environment:
       CONFIG_URI: http://config-server:8888
       EUREKA_URI: http://eureka-server:8761/eureka/
@@ -41,12 +39,15 @@ services:
       - config-server
       - service-registry
       - api-gateway
+    links:
+      - config-server:config-server
+      - service-registry:service-registry
+      - api-gateway:api-gateway
+      - authdb
 
   post-service:
     build: ./post-service
     container_name: post-service
-    networks:
-      - prodnetwork
     environment:
       CONFIG_URI: http://config-server:8888
       EUREKA_URI: http://eureka-server:8761/eureka/
@@ -64,12 +65,15 @@ services:
       - config-server
       - service-registry
       - api-gateway
+    links:
+      - config-server:config-server
+      - service-registry:service-registry
+      - api-gateway:api-gateway
+      - postdb
 
   email-service:
     build: ./email-service
     container_name: email-service
-    networks:
-      - prodnetwork
     ports:
       - 8083:8083
     expose:
@@ -81,6 +85,10 @@ services:
     environment:
       CONFIG_URI: http://config-server:8888
       EUREKA_URI: http://eureka-server:8761/eureka/
+    links:
+      - config-server:config-server
+      - service-registry:service-registry
+      - api-gateway:api-gateway
 
   config-server:
     build: ./config-server
@@ -105,8 +113,6 @@ services:
   service-registry:
     build: ./service-registry
     container_name: service-registry
-    networks:
-      - prodnetwork
     ports:
       - 8761:8761
     expose:
@@ -116,13 +122,13 @@ services:
     environment:
       CONFIG_URI: http://config-server:8888
       EUREKA_URI: http://eureka-server:8761/eureka/
+    links:
+      - config-server:config-server
 
   authdb:
     image: mongo:latest
     container_name: authdb
     restart: always
-    networks:
-      - prodnetwork
     volumes:
       - authdb:/data/db
     ports:
@@ -136,8 +142,6 @@ services:
     image: mongo:latest
     container_name: postdb
     restart: always
-    networks:
-      - prodnetwork
     volumes:
       - postdb:/data/db
     ports:
