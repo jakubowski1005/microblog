@@ -3,4 +3,4 @@ spring:
     name: service-registry
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: ${CONFIG_URI}

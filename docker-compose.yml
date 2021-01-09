@@ -8,36 +8,48 @@ services:
       - 8080:8080
     depends_on:
       - config-server
+      - service-registry
+    environment:
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8761/eureka/
 
   auth-service:
     build: ./auth-service
     container_name: auth-service
     environment:
-      - DB_SERVER=authdb
-      - MONGO_DB=authdb
-      - MONGO_PORT=5431
-      - MONGO_USER=root
-      - MONGO_PASS=pass
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8761/eureka/
+      DB_SERVER: authdb
+      MONGO_DB: authdb
+      MONGO_PORT: 27017
+      MONGO_USER: root
+      MONGO_PASS: password
     ports:
       - 8081:8081
     depends_on:
       - authdb
       - config-server
+      - service-registry
+      - api-gateway
 
   post-service:
     build: ./post-service
     container_name: post-service
     environment:
-      - DB_SERVER=postdb
-      - MONGO_DB=postdb
-      - MONGO_PORT=5430
-      - MONGO_USER=root
-      - MONGO_PASS=pass
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8761/eureka/
+      DB_SERVER: postdb
+      MONGO_DB: postdb
+      MONGO_PORT: 27018
+      MONGO_USER: root
+      MONGO_PASS: password
     ports:
       - 8082:8082
     depends_on:
       - postdb
       - config-server
+      - service-registry
+      - api-gateway
 
   email-service:
     build: ./email-service
@@ -46,12 +58,27 @@ services:
       - 8083:8083
     depends_on:
       - config-server
+      - service-registry
+      - api-gateway
+    environment:
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8761/eureka/
 
   config-server:
     build: ./config-server
     container_name: config-server
     ports:
       - 8888:8888
+    environment:
+      EUREKA_URI: http://eureka-server:8761/eureka/
+      DB_SERVER_AUTH: authdb
+      MONGO_DB_AUTH: authdb
+      MONGO_PORT_AUTH: 27017
+      DB_SERVER_POST: postdb
+      MONGO_DB_POST: postdb
+      MONGO_PORT_POST: 27018
+      MONGO_USER: root
+      MONGO_PASS: password
 
   service-registry:
     build: ./service-registry
@@ -60,28 +87,35 @@ services:
       - 8761:8761
     depends_on:
       - config-server
+    environment:
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8761/eureka/
 
   authdb:
-    image: mongo-express
+    image: mongo:latest
     container_name: authdb
+    restart: always
     volumes:
       - authdb:/data/db
     ports:
-      - 5431:5431
+      - 27017:27017
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
+      MONGO_USERNAME: root
+      MONGO_PASSWORD: password
+      MONGO_INITDB_DATABASE: authdb
 
   postdb:
-    image: mongo-express
+    image: mongo:latest
     container_name: postdb
+    restart: always
     volumes:
       - postdb:/data/db
     ports:
-      - 5430:5430
+      - 27018:27017
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
+      MONGO_USERNAME: root
+      MONGO_PASSWORD: password
+      MONGO_INITDB_DATABASE: postdb
 
 volumes:
   authdb:

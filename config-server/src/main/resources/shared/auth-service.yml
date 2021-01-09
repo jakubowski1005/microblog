@@ -6,9 +6,9 @@ spring:
     name: auth-service
   data:
     mongodb:
-      host: ${DB_SERVER}
-      port: ${MONGO_PORT}
-      dbname: ${MONGO_DB}
+      host: ${DB_SERVER_AUTH}
+      port: ${MONGO_PORT_AUTH}
+      dbname: ${MONGO_DB_AUTH}
       username: ${MONGO_USER}
       password: ${MONGO_PASS}
 
@@ -25,7 +25,7 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URI}
 
 secret-key: p4m3NZ12ZWE6S5652vLEig7rOYqLnf7c
 expiration-time: 7200
