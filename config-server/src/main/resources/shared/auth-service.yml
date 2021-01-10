@@ -4,13 +4,6 @@ server:
 spring:
   application:
     name: auth-service
-  data:
-    mongodb:
-      host: authdb
-      port: 27017
-      dbname: authdb
-      username: root
-      password: password
 
 security:
   oauth2:

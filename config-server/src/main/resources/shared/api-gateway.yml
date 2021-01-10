@@ -10,7 +10,7 @@ zuul:
     service-registry:
       path: /eureka/**
       serviceId: service-registry
-      url: http://service-registry:8761
+      url: http://service-registry:8761/eureka/
       stripPrefix: false
       sensitiveHeaders:
     auth-service:
