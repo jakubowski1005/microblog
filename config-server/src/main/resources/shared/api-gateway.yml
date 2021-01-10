@@ -10,24 +10,16 @@ zuul:
     service-registry:
       path: /eureka/**
       serviceId: service-registry
-      url: http://service-registry:8761/eureka/
-      stripPrefix: false
-      sensitiveHeaders:
+      url: http://service-registry:8761
     auth-service:
       path: /auth/**
       url: http://auth-service:8081
-      stripPrefix: false
-      sensitiveHeaders:
     email-service:
       path: /emails/**
       url: http://email-service:8082
-      stripPrefix: false
-      sensitiveHeaders:
     post-service:
       path: /posts/**
       url: http://post-service:8083
-      stripPrefix: false
-      sensitiveHeaders:
 
 eureka:
   client:

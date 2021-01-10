@@ -8,9 +8,7 @@ spring:
     mongodb:
       host: postdb
       port: 27017
-      dbname: postdb
-      username: root
-      password: password
+      database: postdb
 
 security:
   oauth2:
