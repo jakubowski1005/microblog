@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .securityContextRepository(contextRepository)
                 .authorizeExchange()
                 .pathMatchers(OPTIONS).permitAll()
-                .pathMatchers("/posts", "/tags").permitAll()
+                .pathMatchers("/posts", "/tags", "/").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }
