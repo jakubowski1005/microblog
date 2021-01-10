@@ -13,12 +13,12 @@ zuul:
     auth-service:
       path: /auth/**
       url: http://auth-service:8081
-    email-service:
-      path: /emails/**
-      url: http://email-service:8082
     post-service:
       path: /posts/**
-      url: http://post-service:8083
+      url: http://post-service:8082
+    email-service:
+      path: /emails/**
+      url: http://email-service:8083
 
 eureka:
   client:
