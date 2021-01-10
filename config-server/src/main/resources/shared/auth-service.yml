@@ -27,7 +27,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://service-registry:8761}
+      defaultZone: http://service-registry:8761/eureka/
 
 secret-key: p4m3NZ12ZWE6S5652vLEig7rOYqLnf7c
 expiration-time: 7200
