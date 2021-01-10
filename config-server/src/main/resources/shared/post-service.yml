@@ -10,13 +10,6 @@ spring:
       port: 27017
       database: postdb
 
-security:
-  oauth2:
-    resource:
-      token-info-uri: http://auth-service:8081/oauth/check_token
-    client:
-      client-id: mobile
-      client-secret: pin
 
 eureka:
   client:
@@ -26,3 +19,10 @@ eureka:
       defaultZone: http://service-registry:8761/eureka/
   instance:
     prefer-ip-address: true
+
+secret-key: p4m3NZ12ZWE6S5652vLEig7rOYqLnf7c
+expiration-time: 7200
+
+security:
+  basic:
+    enable: false

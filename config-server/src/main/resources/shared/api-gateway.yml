@@ -9,7 +9,6 @@ zuul:
   routes:
     service-registry:
       path: /eureka/**
-      serviceId: service-registry
       url: http://service-registry:8761
     auth-service:
       path: /auth/**
@@ -29,3 +28,7 @@ eureka:
       defaultZone: http://service-registry:8761/eureka/
   instance:
     prefer-ip-address: true
+
+security:
+  basic:
+    enable: false
