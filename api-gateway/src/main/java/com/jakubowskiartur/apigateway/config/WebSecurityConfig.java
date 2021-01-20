@@ -11,6 +11,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @SneakyThrows
     protected void configure(HttpSecurity http) {
         http.authorizeRequests()
+                .antMatchers("/**", "/auth/**", "/posts/**", "/auth", "/posts").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic().disable();

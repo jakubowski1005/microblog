@@ -2,6 +2,12 @@ version: "3"
 
 services:
 
+  bloget-ui:
+    build: ./bloget-ui
+    container_name: bloget-ui
+    ports:
+      - 3000:3000
+
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway
@@ -87,7 +93,7 @@ services:
     volumes:
       - postdb:/data/db
     ports:
-      - 27018:27018
+      - 27018:27017
 
 volumes:
   authdb:
