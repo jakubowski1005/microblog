@@ -1,25 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { Segment, Grid, Button, Search, Divider } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Form, Button, TextArea, Grid, Message } from 'semantic-ui-react';
+import { sendPost } from '../services/PostService.js'
 
 export default function ToolbarComponent() {
 
-    let name = 'toolbar'
+    const [providedText, setProvidedText] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const sendMessage =  () => {
+        if (sessionStorage.getItem('token') === null) {
+            setErrorMessage('You have to login first.');
+            return;
+        }
+        if (providedText === '') {
+            setErrorMessage('Message cannot be empty.');
+            return;
+        }
+        sendPost(providedText);
+    }
 
     return (
-        <Segment placeholder>
-            <Grid columns={2} stackable textAlign='center'>
-                <Divider vertical>Or</Divider>
-
-                <Grid.Row verticalAlign='middle'>
-                    <Grid.Column>
-                        <Search placeholder='Search countries...' />
-                    </Grid.Column>
-
-                    <Grid.Column>
-                        <Button primary>Create</Button>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        </Segment>
+        <>
+            <Grid columns='equal'>
+                <Grid.Column></Grid.Column>
+                <Grid.Column width={8}>
+                    { errorMessage && <Message negative>
+                        <Message.Header>Error occurs</Message.Header>
+                        <p>{errorMessage}</p>
+                    </Message>}
+                    <Form>
+                        <TextArea onChange={e => setProvidedText(e.target.value)} placeholder='Write something here' />
+                    </Form>
+                </Grid.Column>
+                <Grid.Column>
+                    <Button primary onClick={sendMessage}>Send</Button>
+                </Grid.Column>
+            </Grid>  
+        </>
     );
 }

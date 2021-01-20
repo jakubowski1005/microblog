@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import FeedComponent from './FeedComponent.js';
+import ToolbarComponent from './ToolbarComponent.js';
+import { Segment } from 'semantic-ui-react';
 
 export default function PageComponent() {
-
-    let name = 'page'
-
     return (
         <>
-            <p>In {name} component</p>
+            <Segment>
+                <ToolbarComponent />
+            </Segment>
+            <Segment>
+                <FeedComponent />
+            </Segment>
         </>
     );
 }

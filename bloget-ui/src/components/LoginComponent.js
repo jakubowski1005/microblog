@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Container, Segment, Header, Icon, Form, Message, Loader } from 'semantic-ui-react';
+import { login } from '../services/AuthService.js';
 
 export default function LoginComponent() {
 
@@ -9,6 +10,7 @@ export default function LoginComponent() {
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
     const [hasFailed, setHasFailed] = useState(false)
+    const [redirect, setRedirect] = useState(false)
 
     const loginClicked = () => {
         setLoading(true)
@@ -18,7 +20,18 @@ export default function LoginComponent() {
             setHasFailed(true)
             setLoading(false)
         }
-        console.log(`Logged in with username: ${usernameOrEmail} and password: ${password}`)
+        
+        login({
+            usernameOrEmail: usernameOrEmail, 
+            password: password
+        }).then(res => {
+            console.log(sessionStorage.getItem('token'));
+            setLoading(false)
+        }).catch(err => {
+            setMessage(err.message)
+            setHasFailed(true)
+            setLoading(false)
+        });
     }
 
     return (
@@ -44,6 +57,7 @@ export default function LoginComponent() {
                         <Form.Button color='blue' size='huge' onClick={loginClicked} style={{minWidth: '140px'}}>
                             {loading && <Loader active inline size='tiny' />}
                             {!loading && 'Submit'}
+                            {redirect && <Redirect to='/' />}
                         </Form.Button>
                     </Form>
                     <div>

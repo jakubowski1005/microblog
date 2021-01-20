@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Container, Segment, Header, Icon, Form, Message, Loader } from 'semantic-ui-react';
+import { register } from '../services/AuthService.js';
 
 export default function RegisterComponent() {
 
@@ -10,8 +12,9 @@ export default function RegisterComponent() {
     const [errorMessage, setErrorMessage] = useState('')
     const [loading, setLoading] = useState(false)
     const [check, setCheck] = useState(false)
+    const [redirect, setRedirect] = useState(false)
 
-    const register = () => {
+    const registerUser = () => {
         setLoading(true)
 
         if (!check) {
@@ -32,24 +35,17 @@ export default function RegisterComponent() {
             return;
         }
 
-        console.log(`Registered with data: ${username}, ${email}, ${password}`)
-
-        // AuthService.registerUser(this.state.username, this.state.email, this.state.password)
-        //     .then( () => {
-        //         this.setState({
-        //             username: this.state.username,
-        //             email: this.state.email,
-        //             password: this.state.password
-        //         })
-        //         this.props.history.push('/login')
-        //     })
-        //     .catch( (err) => {
-        //         console.log(err)
-        //         this.setState({
-        //             errorMessage: 'Please input correct values.',
-        //             loading: false
-        //         })
-        //     })
+        register({
+            username: username,
+            email: email, 
+            password: password
+        }).then(res => {
+            setLoading(false)
+            setRedirect(true)
+        }).catch(err => {
+            setErrorMessage(err.message)
+            setLoading(false)
+        });
     }
 
     return (
@@ -64,9 +60,10 @@ export default function RegisterComponent() {
                     <Form.Input placeholder='Password' name='password' type='password' value={password} onChange={e => setPassword(e.target.value)}/>
                     <Form.Input placeholder='Confirm password' name = 'passwordConfirmation' type='password' value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value)}/>
                     <Form.Checkbox onChange={() => setCheck(!check)} label={<label>I accept the <a href='/terms'>Terms of Service</a></label>} />
-                    <Form.Button color='blue' size='huge' onClick={register}>
+                    <Form.Button color='blue' size='huge' onClick={registerUser}>
                         {!loading && 'Submit'}
                         {loading && <Loader active inline size='tiny' />}
+                        {redirect && <Redirect to='/login' />}
                     </Form.Button>
                 </Form>
             </Segment>
