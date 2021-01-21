@@ -24,34 +24,34 @@ public class PostController {
 
     PostService service;
 
-    @GetMapping("/posts")
+    @GetMapping("/")
     public Flux<Post> receivePosts() {
         return service.receivePosts();
     }
 
-    @GetMapping("/posts/id/{id}")
+    @GetMapping("/id/{id}")
     public Mono<Post> receivePostById(@PathVariable String id) {
         return service.receivePostById(id);
     }
 
-    @GetMapping("/posts/{username}")
+    @GetMapping("/{username}")
     public Flux<Post> receivePostsByUser(@PathVariable String username) {
         return service.receivePostsByUser(username);
     }
 
-    @PostMapping("/posts")
+    @PostMapping("/")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public Mono<ResponseEntity<Post>> addPost(@RequestBody @Valid PostDto post, Mono<Principal> principal) {
-        return service.addPost(post, principal);
+    public Mono<ResponseEntity<Post>> addPost(@RequestHeader("Authorization") String token, @RequestBody @Valid PostDto post, Mono<Principal> principal) {
+        return service.addPost(token, post, principal);
     }
 
-    @PutMapping("/posts/id/{id}")
+    @PutMapping("/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public Mono<ResponseEntity<Post>> updatePost(@PathVariable String id, @RequestBody @Valid PostDto updated, Mono<Principal> principal) {
         return service.updatePost(id, updated, principal);
     }
 
-    @DeleteMapping("/posts/id/{id}")
+    @DeleteMapping("/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public Mono<ResponseEntity<Void>> deletePost(@PathVariable String id, Mono<Principal> principal) {
         return service.deletePost(id, principal);

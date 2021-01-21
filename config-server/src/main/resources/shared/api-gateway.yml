@@ -9,7 +9,7 @@ zuul:
   routes:
     service-registry:
       path: /eureka/**
-      url: http://service-registry:8761
+      url: http://service-registry:8761/eureka/
     auth-service:
       path: /auth/**
       url: http://auth-service:8081

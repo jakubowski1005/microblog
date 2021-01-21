@@ -14,7 +14,7 @@ public interface PostService {
     Flux<Post> receivePosts();
     Mono<Post> receivePostById(String id);
     Flux<Post> receivePostsByUser(String username);
-    Mono<ResponseEntity<Post>> addPost(PostDto post, Mono<Principal> principal);
+    Mono<ResponseEntity<Post>> addPost(String token, PostDto post, Mono<Principal> principal);
     Mono<ResponseEntity<Post>> updatePost(String id, PostDto updated, Mono<Principal> principal);
     Mono<ResponseEntity<Void>> deletePost(String id, Mono<Principal> principal);
 }

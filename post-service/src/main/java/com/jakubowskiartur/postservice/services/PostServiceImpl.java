@@ -3,6 +3,7 @@ package com.jakubowskiartur.postservice.services;
 import com.jakubowskiartur.postservice.model.Post;
 import com.jakubowskiartur.postservice.model.PostDto;
 import com.jakubowskiartur.postservice.repository.PostRepository;
+import com.jakubowskiartur.postservice.utils.JwtUtil;
 import com.jakubowskiartur.postservice.utils.TagFinder;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class PostServiceImpl implements PostService {
 
     PostRepository repository;
     TagFinder tagFinder;
+    JwtUtil jwt;
 
     @Override
     public Flux<Post> receivePosts() {
@@ -46,14 +48,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Mono<ResponseEntity<Post>> addPost(PostDto post, Mono<Principal> principal) {
+    public Mono<ResponseEntity<Post>> addPost(String token, PostDto post, Mono<Principal> principal) {
         return receivePrincipal(principal)
                 .log()
                 .flatMap(owner -> repository.save(
                         Post.builder()
                                 .content(post.getContent())
                                 .tags(tagFinder.find(post.getContent()))
-                                .owner(owner)
+                                .owner(jwt.getUsernameFromToken(token.substring(7)))
                                 .createdAt(new Date())
                                 .build()))
                 .log()
