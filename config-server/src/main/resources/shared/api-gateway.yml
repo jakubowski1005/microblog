@@ -32,7 +32,3 @@ eureka:
 management:
   security:
     enabled: false
-
-security:
-  basic:
-    enable: false

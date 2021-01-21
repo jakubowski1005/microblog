@@ -2,11 +2,10 @@ package com.jakubowskiartur.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
-@SpringBootApplication(exclude= {UserDetailsServiceAutoConfiguration.class})
+@SpringBootApplication
 @EnableZuulProxy
 @EnableDiscoveryClient
 public class ApiGatewayApplication {
