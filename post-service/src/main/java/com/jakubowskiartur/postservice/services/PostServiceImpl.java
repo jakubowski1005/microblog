@@ -48,12 +48,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public Mono<ResponseEntity<Post>> addPost(PostDto post, Mono<Principal> principal) {
         return receivePrincipal(principal)
+                .log()
                 .flatMap(owner -> repository.save(
                         Post.builder()
                                 .content(post.getContent())
                                 .tags(tagFinder.find(post.getContent()))
                                 .owner(owner)
+                                .createdAt(new Date())
                                 .build()))
+                .log()
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build())
                 .log();
@@ -88,6 +91,8 @@ public class PostServiceImpl implements PostService {
     }
 
     private Mono<String> receivePrincipal(Mono<Principal> principal) {
-        return principal.map(Principal::getName);
+        return principal.log()
+                .map(Principal::toString)
+                .log();
     }
 }
