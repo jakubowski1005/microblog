@@ -14,6 +14,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**", "/auth/**", "/posts/**", "/auth", "/posts").permitAll()
                 .anyRequest().permitAll()
                 .and()
+                .csrf().and().cors().disable()
                 .httpBasic().disable();
     }
 }

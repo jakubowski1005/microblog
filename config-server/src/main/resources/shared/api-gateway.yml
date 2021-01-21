@@ -29,6 +29,10 @@ eureka:
   instance:
     prefer-ip-address: true
 
+management:
+  security:
+    enabled: false
+
 security:
   basic:
     enable: false
