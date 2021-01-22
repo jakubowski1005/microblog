@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,9 +42,9 @@ public class PostController {
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public Mono<ResponseEntity<Post>> addPost(@RequestHeader(value = "Authorization") String token,
-                                              @RequestBody @Valid PostDto post, Mono<Principal> principal) {
-        return service.addPost(token, post, principal);
+    public Mono<ResponseEntity<Post>> addPost(@RequestHeader Map<String, String> headers,
+    @RequestBody @Valid PostDto post, Mono<Principal> principal) {
+        return service.addPost(headers.get("Authorization"), post, principal);
     }
 
     @PutMapping("/id/{id}")
