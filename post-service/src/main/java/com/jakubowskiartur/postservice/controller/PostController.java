@@ -41,8 +41,8 @@ public class PostController {
     @PostMapping("/")
     //@PreAuthorize("hasRole('ROLE_USER')")
     public Mono<ResponseEntity<Post>> addPost(@RequestHeader Map<String, String> headers,
-    @RequestBody @Valid PostDto post, Mono<Principal> principal) {
-        return service.addPost(headers.get("authorization").substring(7), post, principal);
+    @RequestBody @Valid PostDto post) {
+        return service.addPost(headers.get("authorization").substring(7), post);
     }
 
     @PutMapping("/id/{id}")

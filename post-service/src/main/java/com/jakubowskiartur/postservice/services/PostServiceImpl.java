@@ -48,14 +48,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Mono<ResponseEntity<Post>> addPost(String token, PostDto post, Mono<Principal> principal) {
+    public Mono<ResponseEntity<Post>> addPost(String token, PostDto post) {
         return Mono.just(post)
                 .log()
-                .flatMap(owner -> repository.save(
+                .flatMap(content -> repository.save(
                         Post.builder()
-                                .content(post.getContent())
-                                .tags(tagFinder.find(post.getContent()))
-                                .owner(jwt.getUsernameFromToken(token.substring(7)))
+                                .content(content.getContent())
+                                .tags(tagFinder.find(content.getContent()))
+                                .owner(jwt.getUsernameFromToken(token))
                                 .createdAt(new Date())
                                 .build()))
                 .log()
