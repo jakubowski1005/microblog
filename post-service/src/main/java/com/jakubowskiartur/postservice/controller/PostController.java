@@ -21,8 +21,6 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PostController {
 
-    //TODO Add integration tests
-
     PostService service;
 
     @GetMapping("/")
@@ -41,15 +39,16 @@ public class PostController {
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    //@PreAuthorize("hasRole('ROLE_USER')")
     public Mono<ResponseEntity<Post>> addPost(@RequestHeader Map<String, String> headers,
     @RequestBody @Valid PostDto post, Mono<Principal> principal) {
-        return service.addPost(headers.get("Authorization"), post, principal);
+        return service.addPost(headers.get("authorization").substring(7), post, principal);
     }
 
     @PutMapping("/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public Mono<ResponseEntity<Post>> updatePost(@PathVariable String id, @RequestBody @Valid PostDto updated, Mono<Principal> principal) {
+    public Mono<ResponseEntity<Post>> updatePost(@PathVariable String id, @RequestBody @Valid PostDto updated,
+                                                 Mono<Principal> principal) {
         return service.updatePost(id, updated, principal);
     }
 

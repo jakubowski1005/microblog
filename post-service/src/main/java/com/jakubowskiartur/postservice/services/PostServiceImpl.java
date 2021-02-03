@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Mono<ResponseEntity<Post>> addPost(String token, PostDto post, Mono<Principal> principal) {
-        return receivePrincipal(principal)
+        return Mono.just(post)
                 .log()
                 .flatMap(owner -> repository.save(
                         Post.builder()
@@ -62,6 +62,19 @@ public class PostServiceImpl implements PostService {
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build())
                 .log();
+//        return receivePrincipal(principal)
+//                .log()
+//                .flatMap(owner -> repository.save(
+//                        Post.builder()
+//                                .content(post.getContent())
+//                                .tags(tagFinder.find(post.getContent()))
+//                                .owner(jwt.getUsernameFromToken(token.substring(7)))
+//                                .createdAt(new Date())
+//                                .build()))
+//                .log()
+//                .map(ResponseEntity::ok)
+//                .defaultIfEmpty(ResponseEntity.notFound().build())
+//                .log();
     }
 
     @Override
