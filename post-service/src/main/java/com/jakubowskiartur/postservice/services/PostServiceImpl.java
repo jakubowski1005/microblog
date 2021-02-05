@@ -49,6 +49,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Mono<ResponseEntity<Post>> addPost(String token, PostDto post) {
+        System.out.println();
+        System.out.println("______________________");
+        System.out.println(token);
+        System.out.println(jwt.getUsernameFromToken(token));
+        System.out.println("______________________");
+        System.out.println();
         return Mono.just(post)
                 .log()
                 .flatMap(content -> repository.save(
