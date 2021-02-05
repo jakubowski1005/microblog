@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom'
 import { Container, Segment, Header, Icon, Form, Message, Loader } from 'semantic-ui-react';
 import { login } from '../services/AuthService.js';
+import {HOME_PAGE} from "../services/constants";
 
 export default function LoginComponent() {
 
@@ -24,13 +25,21 @@ export default function LoginComponent() {
         login({
             usernameOrEmail: usernameOrEmail, 
             password: password
-        }).then(res => {
-            console.log(sessionStorage.getItem('token'));
-            setLoading(false)
-        }).catch(err => {
-            setMessage(err.message)
-            setHasFailed(true)
-            setLoading(false)
+        })
+            .then(res => {
+                console.log(res)
+                res.json()
+            })
+            .then(data => {
+                sessionStorage.setItem('token', data.token);
+                console.log(sessionStorage.getItem('token'));
+                setLoading(false)
+                window.location.replace(HOME_PAGE);
+            })
+            .catch(err => {
+                setMessage(err.message)
+                setHasFailed(true)
+                setLoading(false)
         });
     }
 

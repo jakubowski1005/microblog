@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom'
-import { Container, Menu, Icon, Dropdown } from 'semantic-ui-react'
+import { Container, Menu, Icon } from 'semantic-ui-react'
 import { logout } from '../services/AuthService.js';
 
 export default function HeaderComponent() {
@@ -9,8 +9,8 @@ export default function HeaderComponent() {
     const [isLogged, setIsLogged] = useState(false)
 
     useEffect(() => {
-        setIsLogged(sessionStorage.getItem('token') !== null);
-    })
+        setIsLogged(sessionStorage.getItem('token') !== null)
+    },[])
 
     const handleLogout = (event) => {
         setActiveItem('home')

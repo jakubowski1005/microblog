@@ -37,14 +37,18 @@ export default function RegisterComponent() {
 
         register({
             username: username,
-            email: email, 
+            email: email,
             password: password
-        }).then(res => {
-            setLoading(false)
-            setRedirect(true)
-        }).catch(err => {
-            setErrorMessage(err.message)
-            setLoading(false)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setLoading(false)
+                setRedirect(true)
+        })
+            .catch(err => {
+                console.error(err)
+                setErrorMessage(err.message)
+                setLoading(false)
         });
     }
 

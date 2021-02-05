@@ -8,12 +8,17 @@ export default function FeedComponent() {
 
     useEffect(() => {
         receivePosts()
-        .then(res => setPosts(res));
+            .then(res => {
+                console.log(res)
+                res.json()
+            })
+            .then(data => {
+                console.log('data')
+                console.log(data)
+                setPosts(data);
     })
-
-    // const getPosts = async () => {
-        
-    // }
+            .catch(err => console.error(err));
+    })
 
     return (
         <>
