@@ -21,7 +21,7 @@ eureka:
     prefer-ip-address: true
 
 secret-key: p4m3NZ12ZWE6S5652vLEig7rOYqLnf7c
-expiration-time: 7200
+expiration-time: 7200000
 
 security:
   basic:
